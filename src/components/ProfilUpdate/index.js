@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import ProfilHeader from 'components/Profil/ProfilHeader';
 import BeneficiaryProfilUpdate from './BeneficiaryProfilUpdate';
 import DonorProfilUpdate from './DonorProfilUpdate';
 import ShopkeeperProfilUpdate from './ShopkeeperProfilUpdate';
 import Error403 from 'components/Error403';
 import Nav from 'containers/Nav';
+
+import Modal from 'containers/Modal';
 
 import './profilUpdate.scss';
 import '../Profil/profil.scss';
@@ -15,45 +16,19 @@ const ProfilUpdate = ({
   currentUser,
   role,
   updateProfile,
+  updateAvatar,
   token,
-  profileUpdated,
-  initProfileUpdate,
+  show,
+  showHideModal,
 }) => {
   document.title = `Editer mon profil - Aide ton prochain`;
-  initProfileUpdate();
   if (currentUser.user !== undefined) {
     return (
       <>
-        {profileUpdated === true && (
-          <Redirect
-            to={{
-              pathname: '/profil',
-              state: {
-                profileUpdatedConfirmMessage: {
-                  type: 'success',
-                  message: 'Profil mis à jour !',
-                },
-              },
-            }}
-          />
-        )}
-        {profileUpdated === false && (
-          <Redirect
-            to={{
-              pathname: '/profil',
-              state: {
-                profileUpdatedConfirmMessage: {
-                  type: 'danger',
-                  message: "Une erreur est survenue lors de l'édition du profil",
-                },
-              },
-            }}
-          />
-        )}
-        <Nav theme="light" />
-        <div className="container mt-5 edit-profile-container profile-update-container">
+        <Nav theme="dark" />
+        <div className="container mt-5">
           <div className="row">
-            <div className="col col-md-10 col-lg-8 mx-auto bg-white py-md-medium">
+            <div className="col bg-white py-md-medium">
               <div className="row">
                 <div className="col px-md-large">
                   <ProfilHeader role={role} user={currentUser} update={true} />
@@ -62,6 +37,7 @@ const ProfilUpdate = ({
                       currentUser={currentUser}
                       role={role}
                       updateProfile={updateProfile}
+                      updateAvatar={updateAvatar}
                       token={token}
                     />
                   )}
@@ -70,6 +46,7 @@ const ProfilUpdate = ({
                       currentUser={currentUser}
                       role={role}
                       updateProfile={updateProfile}
+                      updateAvatar={updateAvatar}
                       token={token}
                     />
                   )}
@@ -78,7 +55,9 @@ const ProfilUpdate = ({
                       currentUser={currentUser}
                       role={role}
                       updateProfile={updateProfile}
+                      updateAvatar={updateAvatar}
                       token={token}
+                      showHideModal={showHideModal}
                     />
                   )}
                 </div>
@@ -86,6 +65,12 @@ const ProfilUpdate = ({
             </div>
           </div>
         </div>
+        <Modal
+          title="Mise à jour du profil"
+          message="Le profil a était mis à jour"
+          messageError="Le profil n'a pas pu être mis à jour"
+          page="profil"
+        />
       </>
     );
   } else {

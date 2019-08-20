@@ -24,7 +24,6 @@ class ShopkeeperDetails extends Component {
     const currentUser = {
       user: beneficiary,
     };
-    console.log(currentUser);
     return (
       <>
         <Header

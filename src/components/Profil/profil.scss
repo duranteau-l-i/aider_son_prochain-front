@@ -1,66 +1,69 @@
 @import '../App/vars.scss';
-
-.page-id-product-selector {
-  h2 {
-    font-size: 1.33rem;
-    font-weight: bold;
-    margin-bottom: 0;
-  }
+table {
+  width: 100%;
 }
 
-.profile-header {
-  flex-basis: min-content;
+// .page-id-product-selector {
+//   h2 {
+//     font-size: 1.33rem;
+//     font-weight: bold;
+//     margin-bottom: 0;
+//   }
+// }
 
-  .profile-avatar {
-    flex-basis: 120px;
-    .upload-link {
-      font-size: 12px;
-      cursor: pointer;
-      font-family: 'Source Sans Pro', sans-serif;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    img {
-      border-radius: 50%;
-      max-width: 120px;
-      height: 120px;
-      padding: 3px;
-      border: 2px solid orange;
-    }
-  }
-  .profile-metas {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 1.15rem;
-    h1 {
-      text-transform: none;
-      font-size: 24px;
-      font-family: 'Source Sans Pro', sans-serif;
+// .profile-header {
+//   // flex-basis: min-content;
 
-      font-weight: 600;
-    }
-    flex-basis: 75%;
-  }
-}
+//   .profile-avatar {
+//     // flex-basis: 120px;
+//     .upload-link {
+//       font-size: 12px;
+//       cursor: pointer;
+//       font-family: 'Source Sans Pro', sans-serif;
+//       &:hover {
+//         text-decoration: underline;
+//       }
+//     }
+//     img {
+//       border-radius: 50%;
+//       max-width: 120px;
+//       height: 120px;
+//       padding: 3px;
+//       border: 2px solid orange;
+//     }
+//   }
+//   .profile-metas {
+//     font-family: 'Source Sans Pro', sans-serif;
+//     font-size: 1.15rem;
+//     h1 {
+//       text-transform: none;
+//       font-size: 24px;
+//       font-family: 'Source Sans Pro', sans-serif;
 
-.edit-profile-container {
-  h2 {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 24px;
-    margin-bottom: 2.5rem;
-  }
-  .table-container {
-    font-size: 14px;
-    overflow-x: scroll;
-    min-width: 101%;
-    select {
-      font-size: 14px;
-      padding: 0.25rem 0.5rem;
-      width: 5rem;
-    }
-    &:hover {
-      overflow-x: visible;
-      margin-bottom: 1.95rem;
-    }
-  }
-}
+//       font-weight: 600;
+//     }
+//     // flex-basis: 75%;
+//   }
+// }
+
+// .edit-profile-container {
+//   h2 {
+//     font-family: 'Source Sans Pro', sans-serif;
+//     font-size: 24px;
+//     margin-bottom: 2.5rem;
+//   }
+//   .table-container {
+//     font-size: 14px;
+//     overflow-x: scroll;
+//     min-width: 101%;
+//     select {
+//       font-size: 14px;
+//       padding: 0.25rem 0.5rem;
+//       width: 5rem;
+//     }
+//     &:hover {
+//       overflow-x: visible;
+//       margin-bottom: 1.95rem;
+//     }
+//   }
+// }

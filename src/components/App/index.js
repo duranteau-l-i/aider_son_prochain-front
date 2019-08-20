@@ -6,24 +6,24 @@ import './App.scss';
 /* Pages */
 /* Components */
 import Home from 'components/Home';
-import Localisation from 'components/Localisation';
+// import Localisation from 'components/Localisation';
 import Payment from 'components/Payment';
 import Error404 from 'components/Error404';
 import Footer from 'components/Footer';
 
 /* Containers */
 import Contact from 'containers/Contact';
-import Login from 'containers/Login';
 import Register from 'containers/Register';
-import AddProduct from 'containers/AddProduct';
+import Login from 'containers/Login';
 import Profil from 'containers/Profil';
 import ProfilUpdate from 'containers/ProfilUpdate';
 import Beneficiary from 'containers/Beneficiary';
+import BeneficiaryDetails from 'containers/Beneficiary/BeneficiaryDetails';
 import Shopkeeper from 'containers/Shopkeeper';
-import ShopkeeperDetails from 'containers/ShopkeeperDetails';
-import BeneficiaryDetails from 'containers/BeneficiaryDetails';
+import ShopkeeperDetails from 'containers/Shopkeeper/ShopkeeperDetails';
+import AddProduct from 'containers/Shopkeeper/AddProduct';
+import EditProduct from 'containers/Shopkeeper/EditProduct';
 import Donations from 'containers/Donation';
-import EditProduct from 'containers/EditProduct';
 
 const App = () => (
   <>
@@ -98,14 +98,14 @@ const App = () => (
           return <Beneficiary />;
         }}
       />
-      <Route
+      {/* <Route
         exact
         key="/localisation"
         path="/localisation"
         render={() => {
           return <Localisation />;
         }}
-      />
+      /> */}
       <Route
         exact
         key="/payment"

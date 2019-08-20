@@ -3,102 +3,78 @@ import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 
 import Header from 'components/Header';
-import Alert from 'components/UtilsComponents/Alert';
 import Input from 'components/Input';
-import { serializeFormData } from 'utils';
 import './login.scss';
 import loginBackgroundImage from 'assets/img/welcome.jpg';
 
-class Login extends React.Component {
-  componentDidMount() {
-    document.title = `Connexion - Aide ton prochain`;
-  }
+const Login = ({ currentUser, submitLogin }) => {
+  // componentDidMount() {
+  //   document.title = `Connexion - Aide ton prochain`;
+  // }
 
-  submitLoginForm = event => {
-    const { submitLogin } = this.props;
-    event.preventDefault();
-    const jsonObject = serializeFormData(event.target);
-    submitLogin(jsonObject);
+  const submitLoginForm = e => {
+    e.preventDefault();
+
+    const data = {};
+    Array.from(e.target).forEach(el => {
+      if (el.value !== '' && el.name !== '') {
+        data[el.name] = el.value;
+      }
+    });
+
+    submitLogin(data);
   };
 
-  render() {
-    const { alert, isLogged, initLogin } = this.props;
-    initLogin();
-    let registerConfirmMessage = undefined;
-    if (this.props.location.state) {
-      registerConfirmMessage = this.props.location.state.registerConfirmMessage;
-    }
-
-    return (
-      <>
-        {isLogged === true && (
-          <Redirect
-            to={{
-              pathname: '/profil',
-            }}
-          />
-        )}
-        <Header
-          title="Heureux de vous revoir !"
-          subtitle="Connectez-vous à votre compte"
-          theme="dark"
-          backgroundImage={loginBackgroundImage}
+  return (
+    <>
+      {currentUser.user !== undefined && (
+        <Redirect
+          to={{
+            pathname: '/profil',
+          }}
         />
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-md-6 col-lg-4">
-              {registerConfirmMessage && (
-                <div className={`alert alert-${registerConfirmMessage.type}`}>
-                  {registerConfirmMessage.message}
-                  {registerConfirmMessage.link && (
-                    <a href={registerConfirmMessage.link.url} className="alert-link">
-                      {' ' + registerConfirmMessage.link.label}
-                    </a>
-                  )}
-                </div>
-              )}
-              {alert && alert !== {} && <Alert alert={alert} />}
-              <form className="mt-4" onSubmit={this.submitLoginForm}>
-                <Input
-                  label="Adresse email ou nom d'utilisateur"
-                  type="text"
-                  className="form-control"
-                  id="login"
-                  name="login"
-                  placeholder="ex: tintin@mail.com"
-                  required={true}
-                />
-                <Input
-                  label="Mot de passe"
-                  type="password"
-                  className="form-control"
-                  id="password"
-                  name="password"
-                  required={true}
-                />
-                <button type="submit" className="mt-4 btn btn-primary btn-block">
-                  Se connecter
-                </button>
-              </form>
-              {/*<div className="mt-3 d-flex justify-content-between">
-              <a href="#" className="text-small">
-                Mot de passe oublié ?
-              </a>
-              <a href="#" className="text-small">
-                Inscription
-              </a>
-            </div>*/}
-            </div>
+      )}
+      <Header
+        title="Heureux de vous revoir !"
+        subtitle="Connectez-vous à votre compte"
+        theme="dark"
+        backgroundImage={loginBackgroundImage}
+      />
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-4">
+            <form className="mt-4" onSubmit={submitLoginForm}>
+              <Input
+                label="Adresse email ou nom d'utilisateur"
+                type="text"
+                className="form-control"
+                id="login"
+                name="login"
+                placeholder="Pseudo ou Email"
+                required={true}
+              />
+              <Input
+                label="Mot de passe"
+                type="password"
+                className="form-control"
+                id="password"
+                name="password"
+                placeholder="******"
+                required={true}
+              />
+              <button type="submit" className="mt-4 btn btn-primary btn-block">
+                Se connecter
+              </button>
+            </form>
           </div>
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};
 
 Login.propTypes = {
   submitLogin: PropTypes.func.isRequired,
-  message: PropTypes.object.isRequired,
 };
 
 export default withRouter(Login);

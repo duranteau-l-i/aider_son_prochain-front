@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 
 import Header from 'components/Header';
-import ProductSelector from './ProductSelector';
-import BlocCoordonneesHoraires from './BlocCoordonneesHoraires';
+import OpeningHours from './OpeningHours';
 import './shopkeeper.scss';
 import shopKeeperBackgroundImage from 'assets/img/background-shopkeepers.jpg';
-import EmptyState from 'components/UtilsComponents/EmptyState';
+import EmptyState from 'components/EmptyState';
 
 class ShopkeeperDetails extends Component {
   state = {
@@ -138,6 +137,25 @@ class ShopkeeperDetails extends Component {
       }
   };
 
+  openingHours = hour => {
+    let h = '';
+
+    if (hour === 0) {
+      return h;
+    }
+
+    hour = (hour < 10 ? '0' + hour : hour).toString();
+    if (hour.includes('.')) {
+      h = hour.replace('.', 'h');
+      if (h.length === 4) {
+        h = h + '0';
+      }
+    } else {
+      h = hour + 'h00';
+    }
+    return h;
+  };
+
   submitDonation = evt => {
     evt.preventDefault();
     const { sendDonation, token } = this.props;
@@ -145,10 +163,9 @@ class ShopkeeperDetails extends Component {
   };
 
   render() {
-    const { shop, products, role, beneficiariesSuggests, donationConfirmMessage } = this.props;
+    const { shop, products, role, beneficiariesSuggests } = this.props;
     console.log(this.props);
     document.title = `${shop.shopkeeper_name} - Aide ton prochain`;
-    const date = new Date();
     return (
       <>
         <Header
@@ -160,16 +177,6 @@ class ShopkeeperDetails extends Component {
         <div className="container mt-4 py-5">
           <div className="row justify-content-center">
             <div className="col-md-12 col-lg-8">
-              {donationConfirmMessage && (
-                <div className={`alert alert-${donationConfirmMessage.type}`}>
-                  {donationConfirmMessage.message}
-                  {donationConfirmMessage.link && (
-                    <a href={donationConfirmMessage.link.url} className="alert-link">
-                      {' ' + donationConfirmMessage.link.label}
-                    </a>
-                  )}
-                </div>
-              )}
               {products &&
                 shop &&
                 (role === 'beneficiary' || role === 'shopkeeper' || role === 'donor') && (
@@ -327,7 +334,7 @@ class ShopkeeperDetails extends Component {
                     {role === 'shopkeeper' && (
                       <div className="text-center mb-5">
                         <Link
-                          exact="true"
+                          exact
                           to="/add-product"
                           path="/add-product"
                           className="btn btn-outline-primary"
@@ -347,11 +354,11 @@ class ShopkeeperDetails extends Component {
                     <p className="text-small">
                       <span className="font-weight-bold">Adresse : </span>
                       <br />
-                      <span>{shop.localisation.address}</span>
+                      <span>{shop.location.address}</span>
                       <br />
                       <a
-                        href={`https://maps.google.com/?q=${shop.localisation.lat},${
-                          shop.localisation.lon
+                        href={`https://maps.google.com/?q=${shop.location.latitude},${
+                          shop.location.longitude
                         }`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -362,43 +369,7 @@ class ShopkeeperDetails extends Component {
 
                     <span className="font-weight-bold text-small d-block mb-2">Horaires : </span>
 
-                    <table className="mb-3 text-small">
-                      <tbody>
-                        <tr className={date.getDay() === 1 ? 'font-weight-bold' : null}>
-                          <td>Lundi</td>
-                          <td className="px-2">10:00 - 17:00</td>
-                          <td>19:00 - 23:00</td>
-                        </tr>
-                        <tr className={date.getDay() === 2 ? 'font-weight-bold' : null}>
-                          <td>Mardi</td>
-                          <td className="px-2">10:00 - 17:00</td>
-                          <td>19:00 - 23:00</td>
-                        </tr>
-                        <tr className={date.getDay() === 3 ? 'font-weight-bold' : null}>
-                          <td>Mercredi</td>
-                          <td className="px-2">10:00 - 17:00</td>
-                          <td>19:00 - 23:00</td>
-                        </tr>
-                        <tr className={date.getDay() === 4 ? 'font-weight-bold' : null}>
-                          <td>Jeudi</td>
-                          <td className="px-2">10:00 - 17:00</td>
-                          <td>19:00 - 23:00</td>
-                        </tr>
-                        <tr className={date.getDay() === 5 ? 'font-weight-bold' : null}>
-                          <td>Vendredi</td>
-                          <td className="px-2">10:00 - 17:00</td>
-                          <td>19:00 - 23:00</td>
-                        </tr>
-                        <tr className={date.getDay() === 6 ? 'font-weight-bold' : null}>
-                          <td>Samedi</td>
-                          <td className="px-2">10:00 - 23:00</td>
-                        </tr>
-                        <tr className={date.getDay() === 7 ? 'current-day' : null}>
-                          <td>Dimanche</td>
-                          <td className="px-2">Fermé</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <OpeningHours shop={shop} />
                   </div>
                 </div>
               )}

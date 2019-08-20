@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Input from 'components/Input';
 import { Link, withRouter } from 'react-router-dom';
+
+import { updateAvatar } from 'utils';
+
 import './profilUpdate.scss';
 
-const DonorProfilUpdate = ({ currentUser, updateProfile, role, token }) => {
-  const [img, setImg] = useState({});
-
+const DonorProfilUpdate = ({ currentUser, updateProfile, role, token, showHideModal }) => {
   const handleFile = e => {
-    console.log(e.target.files[0]);
-    setImg(e.target.files[0]);
+    e.preventDefault();
+    updateAvatar(e, role, token);
   };
 
   const onUpdate = e => {
@@ -21,15 +22,9 @@ const DonorProfilUpdate = ({ currentUser, updateProfile, role, token }) => {
       }
     });
     delete data.avatar;
-
-    let formData = null;
-    if (e.target.avatar.value !== '') {
-      formData = new FormData();
-      formData.append('avatar', img);
-      formData.append('name', 'avatar');
-    }
-    updateProfile(data, formData, role, token);
+    updateProfile(data, role, token);
   };
+
   return (
     <>
       <form className="mb-4" onSubmit={onUpdate}>
@@ -81,7 +76,7 @@ const DonorProfilUpdate = ({ currentUser, updateProfile, role, token }) => {
             id="avatar"
             name="avatar"
             accept="image/*"
-            onChange={e => handleFile(e)}
+            onChange={handleFile}
           />
         </div>
         <div className="text-right mt-5">

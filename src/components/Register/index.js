@@ -1,80 +1,23 @@
-import React, { useState } from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import Script from 'react-load-script';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import Header from 'components/Header';
-import Alert from 'components/UtilsComponents/Alert';
 import Input from 'components/Input';
 import RegisterShopkeeper from './shopkeeperInputs';
 import RegisterBeneficiary from './beneficiaryInputs';
-import { serializeFormData } from 'utils';
+import Modal from 'containers/Modal';
+
 import './register.scss';
 import registerBackgroundImage from 'assets/img/welcome.jpg';
 
 const Register = props => {
-  const { initRegister, submitRegister, isRegistered, alert } = props;
-  initRegister();
+  const { submitRegister } = props;
   const role = props.match.params.role;
 
   let roleTitle = '';
-
-  const [addressError, setAddressError] = useState(false);
-
-  const submitRegisterForm = event => {
-    event.preventDefault();
-
-    let localisation = { latitude: '', longitude: '', address: '' };
-    const jsonObject = serializeFormData(event.target);
-
-    const { streetAddress, postCode, city } = event.target;
-    if (
-      streetAddress &&
-      postCode &&
-      city &&
-      streetAddress.value !== '' &&
-      postCode.value !== '' &&
-      city.value !== ''
-    ) {
-      /* 1 - Je récupère les données de l'adresse entrée */
-      const stringAddress = streetAddress.value + ' ' + postCode.value + ' ' + city.value;
-
-      // setShopkeeperLocalisation(false);
-      /* 2 - Je teste l'adresse en geocoding */
-      axios
-        .get(
-          `https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q=${stringAddress}&limit=1`,
-        )
-        .then(response => {
-          if (response.data[0] !== undefined) {
-            const { lat, lon } = response.data[0];
-            localisation = {
-              latitude: Number(lat),
-              longitude: Number(lon),
-              address: stringAddress,
-            };
-            if (typeof jsonObject.categories !== 'object') {
-              jsonObject.categories = [jsonObject.categories];
-            }
-            delete jsonObject.city;
-            delete jsonObject.streetAddress;
-            delete jsonObject.postCode;
-            jsonObject.description = '';
-            jsonObject.localisation = localisation;
-            submitRegister(jsonObject, role);
-          } else {
-            console.log("erreur dans l'adresse, à gérer");
-            setAddressError(true);
-          }
-        })
-        .catch(e => {
-          console.log(e.message);
-          setAddressError(true);
-        });
-    } else {
-      submitRegister(jsonObject, role);
-    }
-  };
 
   role === 'beneficiary'
     ? (roleTitle = 'bénéficiaire')
@@ -82,96 +25,167 @@ const Register = props => {
     ? (roleTitle = 'donateur')
     : (roleTitle = 'commerçant');
 
-  document.title = `Inscription ${roleTitle} - Aide ton prochain`;
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [address, setAddress] = useState('');
+  const [location, setLocation] = useState({});
+
+  useEffect(() => {
+    document.title = `Inscription ${roleTitle} - Aide ton prochain`;
+  });
+
+  const onLoad = () => {
+    if (!scriptLoaded) {
+      setScriptLoaded(true);
+    }
+  };
+
+  const handleChange = address => {
+    setAddress(address);
+  };
+
+  const handleSelect = address => {
+    setAddress(address);
+
+    geocodeByAddress(address)
+      .then(result => {
+        setAddress(result[0].formatted_address);
+        return getLatLng(result[0]);
+      })
+      .then(latLng => {
+        setLocation({
+          address: address,
+          latitude: latLng.lat,
+          longitude: latLng.lng,
+        });
+      })
+      .catch(error => console.error('Error', error));
+  };
+
+  const submitRegisterForm = e => {
+    e.preventDefault();
+
+    const categories = [];
+
+    if (e.target.categories) {
+      Array.from(e.target.categories).forEach(cat => {
+        if (cat.checked) categories.push(cat.value);
+      });
+    }
+
+    const data = {};
+    Array.from(e.target).forEach(el => {
+      if (el.value !== '' && el.name !== '') {
+        data[el.name] = el.value;
+      }
+    });
+
+    if (data.location) {
+      data.location = location;
+    }
+
+    if (data.categories) {
+      data.categories = categories;
+    }
+
+    submitRegister(data, role);
+  };
 
   return (
     <>
-      {isRegistered && (
-        <Redirect
-          to={{
-            pathname: '/login',
-            state: {
-              registerConfirmMessage: {
-                type: 'success',
-                message:
-                  'Inscription validée, bienvenue parmi nous. Vous pouvez à présent vous connecter.',
-              },
-            },
-          }}
-        />
-      )}
-      <Header
-        title="Bienvenue chez vous !"
-        subtitle={`Inscription ${roleTitle}`}
-        theme="dark"
-        backgroundImage={registerBackgroundImage}
+      <Script
+        url={`https://maps.googleapis.com/maps/api/js?key=${
+          process.env.REACT_APP_GOOGLE_MAP_API
+        }&libraries=places`}
+        onLoad={onLoad}
       />
+      {scriptLoaded && (
+        <>
+          <Header
+            title="Bienvenue !"
+            subtitle={`Inscription ${roleTitle}`}
+            theme="dark"
+            backgroundImage={registerBackgroundImage}
+          />
 
-      {alert && alert !== {} && (
-        <div className="container">
-          <div className="row">
-            <div className="col col-md-12 col-lg-6 mx-auto">
-              <Alert alert={alert} />
+          <div className="container register">
+            <div className="row justify-content-center">
+              <div className="col-md-12 col-lg-6">
+                <form onSubmit={submitRegisterForm}>
+                  <h3>Vos identifiants</h3>
+                  <Input
+                    type="text"
+                    label="Nom d'utilisateur"
+                    name="username"
+                    id="username"
+                    placeholder="Pseudo"
+                    required={true}
+                    minLength={3}
+                  />
+                  <Input
+                    type="email"
+                    label="Adresse email"
+                    name="email"
+                    id="email"
+                    placeholder="email@societe.com"
+                    required={role !== 'beneficiary' ? true : false}
+                  />
+                  <Input
+                    type="password"
+                    label="Mot de passe"
+                    name="password"
+                    id="password"
+                    required={true}
+                    minLength={6}
+                  />
+                  <h3 className="topSectionH3 mt-5">Votre profil</h3>
+
+                  <Input
+                    type="text"
+                    label="Prénom"
+                    name="firstname"
+                    id="firstname"
+                    placeholder="Votre prénom"
+                    required={role !== 'beneficiary' ? true : false}
+                  />
+                  <Input
+                    type="text"
+                    label="Nom"
+                    name="lastname"
+                    id="lastname"
+                    placeholder="Votre nom"
+                    required={role !== 'beneficiary' ? true : false}
+                  />
+
+                  {role === 'shopkeeper' && (
+                    <RegisterShopkeeper
+                      value={address}
+                      onChange={handleChange}
+                      onSelect={handleSelect}
+                    />
+                  )}
+                  {role === 'beneficiary' && (
+                    <RegisterBeneficiary
+                      value={address}
+                      onChange={handleChange}
+                      onSelect={handleSelect}
+                    />
+                  )}
+
+                  <button type="submit" className="mt-4 btn btn-primary btn-block">
+                    Continuer
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
+          <Modal
+            title="Inscription"
+            message="Vous avez été enregistré avec succes"
+            messageError="Une erreur est survenue, veuillez reessayer"
+            page="login"
+          />
+        </>
       )}
-
-      <div className="container register">
-        <div className="row justify-content-center">
-          <div className="col-md-12 col-lg-6">
-            <form onSubmit={submitRegisterForm}>
-              <h3>Vos identifiants</h3>
-              <Input
-                type="text"
-                label="Nom d'utilisateur"
-                name="username"
-                id="username"
-                placeholder="ex: Tintin72"
-                required={true}
-              />
-              <Input
-                type="email"
-                label="Adresse email"
-                name="email"
-                id="email"
-                placeholder="mon-mail@service.com"
-                required={role !== 'beneficiary' ? true : false}
-              />
-              <Input
-                type="password"
-                label="Mot de passe"
-                name="password"
-                id="password"
-                required={true}
-              />
-              <h3 className="topSectionH3 mt-5">Votre profil</h3>
-              <Input
-                type="text"
-                label="Prénom"
-                name="firstname"
-                id="firstname"
-                placeholder="ex: Pierre"
-                required={false}
-              />
-              <Input
-                type="text"
-                label="Nom"
-                name="lastname"
-                id="lastname"
-                placeholder="ex: Dubois"
-                required={false}
-              />
-              {role === 'shopkeeper' ? <RegisterShopkeeper addressError={addressError} /> : null}
-              {role === 'beneficiary' ? <RegisterBeneficiary addressError={addressError} /> : null}
-
-              <button type="submit" className="mt-4 btn btn-primary btn-block">
-                Continuer
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
     </>
   );
 };

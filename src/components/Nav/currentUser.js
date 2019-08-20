@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const CurrentUser = ({ currentUser, role, deconnexion }) => {
   const onDeconnexion = () => {
@@ -24,20 +25,20 @@ const CurrentUser = ({ currentUser, role, deconnexion }) => {
           <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             {role === 'donor' && (
               <>
-                <Link exact={true} to="/beneficiary" className="nav-link">
+                <Link exact to="/beneficiary" className="nav-link">
                   Personnes&nbsp;à&nbsp;proximité
                 </Link>
-                <Link exact={true} to="/shopkeeper" className="nav-link">
+                <Link exact to="/shopkeeper" className="nav-link">
                   Commerces&nbsp;à&nbsp;proximité
                 </Link>
-                <Link exact={true} to="/donations" className="nav-link">
+                <Link exact to="/donations" className="nav-link">
                   Mes&nbsp;dons
                 </Link>
               </>
             )}
             {role === 'shopkeeper' && (
               <>
-                <Link exact={true} to="/donations" className="nav-link">
+                <Link exact to="/donations" className="nav-link">
                   Suivi&nbsp;des&nbsp;transactions
                 </Link>
               </>
@@ -63,6 +64,12 @@ const CurrentUser = ({ currentUser, role, deconnexion }) => {
       )}
     </>
   );
+};
+
+CurrentUser.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
+  deconnexion: PropTypes.func.isRequired,
 };
 
 export default CurrentUser;

@@ -10,8 +10,11 @@ const beneficiaryMiddleware = store => next => action => {
   switch (action.type) {
     case GET_BENEFICIARIES:
       axios
-        .get(`http://95.142.175.77:3000/api/${action.role}/beneficiaries`, {
-          headers: { Authorization: `Bearer ${action.token}` },
+        .get(`${process.env.REACT_APP_API_URL_DEV}/${action.role}/beneficiaries`, {
+          headers: {
+            Authorization: `Bearer ${action.token}`,
+            'Content-Type': 'application/json',
+          },
         })
         .then(response => {
           store.dispatch(recieveBeneficiaries(response.data, action.location, action.maxDist));
@@ -22,11 +25,18 @@ const beneficiaryMiddleware = store => next => action => {
       break;
 
     case GET_BENEFICIARY:
-      console.log('get benef from mddleware');
       axios
-        .get(`http://95.142.175.77:3000/api/${action.role}/beneficiaries/${action.beneficiaryId}`, {
-          headers: { Authorization: `Bearer ${action.token}` },
-        })
+        .get(
+          `${process.env.REACT_APP_API_URL_DEV}/${action.role}/beneficiaries/${
+            action.beneficiaryId
+          }`,
+          {
+            headers: {
+              Authorization: `Bearer ${action.token}`,
+              'Content-Type': 'application/json',
+            },
+          },
+        )
         .then(response => {
           store.dispatch(recieveBeneficiary(response.data));
         })
@@ -36,9 +46,15 @@ const beneficiaryMiddleware = store => next => action => {
       break;
     case SEARCH_BENEFICIARY:
       axios
-        .get(`http://95.142.175.77:3000/api/donor/search-beneficiary/?q=${action.textValue}`, {
-          headers: { Authorization: `Bearer ${action.token}` },
-        })
+        .get(
+          `${process.env.REACT_APP_API_URL_DEV}/donor/search-beneficiary/?q=${action.textValue}`,
+          {
+            headers: {
+              Authorization: `Bearer ${action.token}`,
+              'Content-Type': 'application/json',
+            },
+          },
+        )
         .then(response => {
           store.dispatch(recieveBeneficiariesSuggests(response.data.result));
         })

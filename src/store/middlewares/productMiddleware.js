@@ -9,13 +9,18 @@ import { decodedToken } from 'utils';
 const productMiddleware = store => next => action => {
   switch (action.type) {
     case EDIT_PRODUCT:
-      console.log(action);
       axios
-        .patch(`http://95.142.175.77:3000/api/product/update/${action.productId}`, action.data, {
-          headers: { Authorization: `Bearer ${action.token}` },
-        })
+        .patch(
+          `${process.env.REACT_APP_API_URL_DEV}/product/update/${action.productId}`,
+          action.data,
+          {
+            headers: {
+              Authorization: `Bearer ${action.token}`,
+              'Content-Type': 'application/json',
+            },
+          },
+        )
         .then(response => {
-          console.log('produit mis à jour');
           store.dispatch(confirmProductEdited());
           store.dispatch(recieveProducts(response.data.products, response.data.shopkeeper));
         })
@@ -25,7 +30,7 @@ const productMiddleware = store => next => action => {
       break;
     case GET_PRODUCTS:
       axios
-        .get(`http://95.142.175.77:3000/api/product/${action.shopkeeperId}`)
+        .get(`${process.env.REACT_APP_API_URL_DEV}/product/${action.shopkeeperId}`)
         .then(response => {
           store.dispatch(recieveProducts(response.data.products, response.data.shopkeeper));
         })
@@ -34,13 +39,14 @@ const productMiddleware = store => next => action => {
         });
       break;
     case ADD_PRODUCT:
-      console.log('ajout', action.data, action.token);
       axios
-        .post(`http://95.142.175.77:3000/api/product/`, action.data, {
-          headers: { Authorization: `Bearer ${action.token}` },
+        .post(`${process.env.REACT_APP_API_URL_DEV}/product/`, action.data, {
+          headers: {
+            Authorization: `Bearer ${action.token}`,
+            'Content-Type': 'application/json',
+          },
         })
         .then(response => {
-          console.log(response);
           store.dispatch(confirmProductAdded());
         })
         .catch(e => {
@@ -49,8 +55,11 @@ const productMiddleware = store => next => action => {
       break;
     case DELETE_PRODUCT:
       axios
-        .delete(`http://95.142.175.77:3000/api/product/delete/${action.productId}`, {
-          headers: { Authorization: `Bearer ${action.token}` },
+        .delete(`${process.env.REACT_APP_API_URL_DEV}/product/delete/${action.productId}`, {
+          headers: {
+            Authorization: `Bearer ${action.token}`,
+            'Content-Type': 'application/json',
+          },
         })
         .then(response => {
           const id = decodedToken(action.token).id;

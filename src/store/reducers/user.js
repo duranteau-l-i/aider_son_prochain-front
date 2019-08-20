@@ -2,9 +2,6 @@ import { INIT_REGISTER, INIT_PROFILE_UPDATE, INIT_LOGIN } from 'store/actionMidd
 
 const initialState = {
   currentUser: {},
-  isRegistered: false,
-  profileUpdated: null,
-  isLogged: false,
 };
 
 export const RECIEVE_CURRENT_USER = 'RECIEVE_CURRENT_USER';

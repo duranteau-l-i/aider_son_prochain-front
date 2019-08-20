@@ -6,8 +6,11 @@ const shopkeeperMiddleware = store => next => action => {
   switch (action.type) {
     case GET_SHOPS:
       axios
-        .get(`http://95.142.175.77:3000/api/${action.role}/shopkeepers`, {
-          headers: { Authorization: `Bearer ${action.token}` },
+        .get(`${process.env.REACT_APP_API_URL_DEV}/${action.role}/shopkeepers`, {
+          headers: {
+            Authorization: `Bearer ${action.token}`,
+            'Content-Type': 'application/json',
+          },
         })
         .then(response => {
           store.dispatch(recieveShops(response.data, action.location, action.maxDist));
@@ -19,9 +22,15 @@ const shopkeeperMiddleware = store => next => action => {
 
     case GET_SHOP:
       axios
-        .get(`http://95.142.175.77:3000/api/${action.role}/shopkeepers/${action.shopkeeperId}`, {
-          headers: { Authorization: `Bearer ${action.token}` },
-        })
+        .get(
+          `${process.env.REACT_APP_API_URL_DEV}/${action.role}/shopkeepers/${action.shopkeeperId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${action.token}`,
+              'Content-Type': 'application/json',
+            },
+          },
+        )
         .then(response => {
           store.dispatch(recieveShop(response.data));
         })

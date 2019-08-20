@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 
 import Profil from 'components/Profil';
 
+import { modalShow } from 'store/reducers/modal';
+
 import { decodedToken } from 'utils';
 
 const mapStateToProps = state => ({
@@ -9,7 +11,11 @@ const mapStateToProps = state => ({
   role: decodedToken(state.user.currentUser.token).role,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  modalShow: (success, error) => {
+    dispatch(modalShow(success, error));
+  },
+});
 
 const ProfilContainer = connect(
   mapStateToProps,

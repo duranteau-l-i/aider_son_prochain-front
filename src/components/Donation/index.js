@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from 'components/Header';
-import EmptyState from 'components/UtilsComponents/EmptyState';
+import EmptyState from 'components/EmptyState';
 import './donations.scss';
 import backgroundDonations from 'assets/img/donations.jpg';
 import { getDonationData } from 'utils/donationUtils';
@@ -16,6 +16,7 @@ class Donations extends React.Component {
       ? (document.title = `Mes donations - Aide ton prochain`)
       : (document.title = `Suivi des transactions - Aide ton prochain`);
   }
+
   handleValidateTransaction = evt => {
     evt.preventDefault();
     const confirmValidateDonation = window.confirm(
@@ -28,6 +29,7 @@ class Donations extends React.Component {
       getDonations(role, token);
     }
   };
+
   render() {
     const { role, donations, currentUser } = this.props;
     let title = '';
@@ -44,6 +46,7 @@ class Donations extends React.Component {
       default:
         title = 'Liste des dons';
     }
+
     const pimpedDonations = donations.map(donation => {
       return {
         ...donation,
@@ -52,7 +55,9 @@ class Donations extends React.Component {
     });
 
     const used = pimpedDonations.filter(donation => donation.additionalData.used === true);
+
     const notUsed = pimpedDonations.filter(donation => donation.additionalData.used === false);
+
     if (currentUser.user !== undefined) {
       return (
         <>
@@ -168,7 +173,7 @@ class Donations extends React.Component {
                               {role === 'beneficiary' || role === 'donor' ? (
                                 <>
                                   Disponible chez <br />
-                                  <a href="#"> {donation.shopkeeper.shopkeeper_name}</a>
+                                  <a href="##"> {donation.shopkeeper.shopkeeper_name}</a>
                                 </>
                               ) : role === 'shopkeeper' ? (
                                 <button
@@ -286,7 +291,7 @@ class Donations extends React.Component {
                                     <>
                                       Consommée le 17/07/2019
                                       <br /> chez
-                                      <a href="#"> {donation.shopkeeper.shopkeeper_name}</a>
+                                      <a href="##"> {donation.shopkeeper.shopkeeper_name}</a>
                                     </>
                                   ) : role === 'shopkeeper' ? (
                                     <>Consommée le 17/08/2019</>
@@ -321,6 +326,7 @@ Donations.propTypes = {
   currentUser: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,
   donations: PropTypes.array.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 export default Donations;

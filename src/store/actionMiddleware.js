@@ -134,21 +134,27 @@ export const getDonations = (role, token) => ({
   token,
 });
 
-// update profil
-export const UPDATE_PROFIL = 'UPDATE_PROFIL';
-
-export const updateProfile = (data, img, role, token) => ({
-  type: UPDATE_PROFIL,
-  data,
-  img,
-  role,
-  token,
-});
-
 export const VALIDATE_DONATION = 'VALIDATE_DONATION';
 export const validateDonation = (role, token, donationId) => ({
   type: VALIDATE_DONATION,
   role,
   token,
   donationId,
+});
+
+// update profil
+export const UPDATE_PROFIL = 'UPDATE_PROFIL';
+
+export const updateProfile = (data, role, token) => ({
+  type: UPDATE_PROFIL,
+  data,
+  role,
+  token,
+});
+
+export const SHOW_HIDE_MODAL = 'SHOW_HIDE_MODAL';
+
+export const showHideModal = bool => ({
+  type: SHOW_HIDE_MODAL,
+  bool,
 });

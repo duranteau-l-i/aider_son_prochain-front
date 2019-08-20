@@ -2,21 +2,15 @@ import { connect } from 'react-redux';
 
 import Login from 'components/Login';
 
-import { submitLogin, initLogin } from 'store/actionMiddleware';
+import { submitLogin } from 'store/actionMiddleware';
 
-const mapStateToProps = state => {
-  return {
-    alert: state.utils.alert,
-    isLogged: state.user.isLogged,
-  };
-};
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser,
+});
 
 const mapDispatchToProps = dispatch => ({
   submitLogin: data => {
     dispatch(submitLogin(data));
-  },
-  initLogin: () => {
-    dispatch(initLogin());
   },
 });
 

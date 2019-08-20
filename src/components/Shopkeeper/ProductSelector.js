@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import EmptyState from 'components/UtilsComponents/EmptyState';
-
-import { serializeFormData } from 'utils';
+import EmptyState from 'components/EmptyState';
 
 class ProductSelector extends React.Component {
   render() {
@@ -17,7 +15,7 @@ class ProductSelector extends React.Component {
       clickSuggest,
       submitDonation,
     } = this.props;
-    console.log(products);
+
     return (
       <>
         <div className="mb-2 table-header d-flex justify-content-between align-items-center">
@@ -166,12 +164,7 @@ class ProductSelector extends React.Component {
         )}
         {role === 'shopkeeper' && (
           <div className="text-center mb-5">
-            <Link
-              exact="true"
-              to="/add-product"
-              path="/add-product"
-              className="btn btn-outline-primary"
-            >
+            <Link exact to="/add-product" path="/add-product" className="btn btn-outline-primary">
               Ajouter un produit
             </Link>
           </div>

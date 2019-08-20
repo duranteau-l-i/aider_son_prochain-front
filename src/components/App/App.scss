@@ -1,27 +1,39 @@
 @import 'vars.scss';
-#root {
-  min-height: 100vh;
-}
-html,
-body {
-  height: 100%;
-}
+// #root {
+//   min-height: 100vh;
+// }
+// html,
+// body {
+//   height: 100%;
+// }
 body {
   font-family: Roboto, sans-serif;
   color: #232323;
   background-color: #f9f8fa;
 }
 
+#root {
+  margin-bottom: 100px;
+}
+
+// autocomplete
+.autocomplete-dropdown-container {
+  position: absolute;
+  z-index: 1;
+  // border: 1px solid #8080808a;
+  // border-radius: 5px;
+  padding: 0 5px 5px 0;
+}
+
 /* spacing */
-@media (min-width: 768px) {
-  .px-md-large {
-    padding-left: 8rem;
-    padding-right: 8rem;
-  }
-  .py-md-medium {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
+
+.px-md-large {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+.py-md-medium {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 .py-6 {
@@ -67,7 +79,6 @@ a.text-accent:hover {
 }
 
 /* img */
-
 img {
   max-width: 100%;
 }

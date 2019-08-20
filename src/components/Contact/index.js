@@ -39,7 +39,7 @@ class Contact extends React.Component {
                   label="Adresse email"
                   name="email"
                   id="email"
-                  placeholder="ex: jean-dupont@mail.com"
+                  placeholder="votre adresse mail"
                   className="form-control"
                   required={true}
                 />
@@ -48,7 +48,7 @@ class Contact extends React.Component {
                   label="Objet"
                   name="object"
                   id="object"
-                  placeholder="ex: demande d'infos"
+                  placeholder="objet de la prise de contact"
                   className="form-control"
                   required={false}
                 />

@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Beneficiary = ({ currentUser, role, publicProfile }) => {
-  console.log(role);
   const beneficiary = currentUser.user;
   return (
     <>
@@ -11,7 +10,9 @@ const Beneficiary = ({ currentUser, role, publicProfile }) => {
           <div className="profile-group mb-3">
             <p className="mb-1 font-weight-bold">Nom d'utilisateur</p>
             <span>
-              {beneficiary.username && beneficiary.username !== '' && beneficiary.username !== undefined
+              {beneficiary.username &&
+              beneficiary.username !== '' &&
+              beneficiary.username !== undefined
                 ? beneficiary.username
                 : 'Non renseigné'}
             </span>
@@ -31,23 +32,45 @@ const Beneficiary = ({ currentUser, role, publicProfile }) => {
       )}
 
       <div className="profile-group mb-3">
-        <p className="mb-1 font-weight-bold">Mon quartier</p>
+        <p className="mb-1 font-weight-bold">Où me trouver</p>
         <span>
-          {beneficiary.localisation &&
-          beneficiary.localisation.address !== '' &&
-          beneficiary.localisation.address !== undefined
-            ? beneficiary.localisation.address
-            : 'Aucune adresse enregistrée'}
+          {beneficiary.location && beneficiary.location.address !== '' ? (
+            <>
+              <span>{beneficiary.location.address}</span>
+              <br />
+              <a
+                href={`https://maps.google.com/?q=${beneficiary.location.latitude},${
+                  beneficiary.location.longitude
+                }`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Voir sur la carte
+              </a>
+            </>
+          ) : (
+            'Aucune adresse enregistrée'
+          )}
         </span>
       </div>
 
       <div className="profile-group mb-3">
         <p className="mb-1 font-weight-bold">Description</p>
-        <span>
-          {beneficiary.description !== '' && beneficiary.description !== undefined
-            ? beneficiary.description
-            : 'Aucune description enregistrée'}
-        </span>
+        <>
+          {(beneficiary.description.trim() === '' || beneficiary.description === undefined) &&
+            'Aucune description enregistrée'}
+
+          {(beneficiary.description.trim() !== '' || beneficiary.description !== undefined) && (
+            <>
+              {beneficiary.description.split('.').map(d => (
+                <p key={d} className="m-0 text-small">
+                  {' '}
+                  {d}{' '}
+                </p>
+              ))}
+            </>
+          )}
+        </>
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const RegisterDropdown = ({ currentUser, role, deconnexion }) => {
+const RegisterDropdown = () => {
   return (
     <>
       <li className="nav-item dropdown">

@@ -13,6 +13,9 @@ const Input = ({
   fieldHelp,
   className = '',
   parentClassName = '',
+  onChange,
+  minLength,
+  pattern,
 }) => (
   <div className={'form-group ' + (parentClassName ? parentClassName : '')}>
     <label htmlFor={id}>
@@ -29,6 +32,9 @@ const Input = ({
         value={value}
         required={required}
         disabled={disabled}
+        onChange={onChange}
+        minLength={minLength}
+        pattern={pattern}
       />
     )}
     {!required && (
@@ -40,6 +46,9 @@ const Input = ({
         placeholder={placeholder}
         value={value}
         disabled={disabled}
+        onChange={onChange}
+        minLength={minLength}
+        pattern={pattern}
       />
     )}
     {fieldHelp && (
@@ -54,7 +63,6 @@ Input.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
 };
 
 export default Input;

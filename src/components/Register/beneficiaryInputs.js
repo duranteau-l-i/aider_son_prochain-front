@@ -1,32 +1,43 @@
 import React from 'react';
+import PlacesAutocomplete from 'react-places-autocomplete';
 
-import Input from 'components/Input';
-
-const RegisterBeneficiary = ({ addressError }) => (
+const RegisterBeneficiary = ({ value, onChange, onSelect }) => (
   <>
-    <h3 className="topSectionH3 mt-5">Votre adresse</h3>
-    {addressError && (
-      <div className="alert alert-danger">
-        L'adresse saisie n'a pas pu être reconnue, veuillez réessayer.
-      </div>
-    )}
-    <Input
-      type="text"
-      label="Numéro et rue"
-      name="streetAddress"
-      id="streetAddress"
-      placeholder="ex: 15 rue des Lilas"
-      required={false}
-    />
-    <Input
-      type="text"
-      label="Code postal"
-      name="postCode"
-      id="postCode"
-      placeholder="75008"
-      required={false}
-    />
-    <Input type="text" label="Ville" name="city" id="city" placeholder="Paris" required={false} />
+    <div className="form-group">
+      <label htmlFor="">Votre adresse</label>
+      <PlacesAutocomplete value={value} onChange={onChange} onSelect={onSelect}>
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <div>
+            <input
+              {...getInputProps({
+                placeholder: 'Entrez une adresse',
+                className: 'location-search-input form-control',
+              })}
+            />
+            <div className="autocomplete-dropdown-container">
+              {loading && <div>Loading...</div>}
+              {suggestions.map(suggestion => {
+                const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                // inline style for demonstration purpose
+                const style = suggestion.active
+                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                return (
+                  <div
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })}
+                  >
+                    <span>{suggestion.description}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </PlacesAutocomplete>
+    </div>
   </>
 );
 
