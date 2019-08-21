@@ -57,10 +57,11 @@ const Beneficiary = ({ currentUser, role, publicProfile }) => {
       <div className="profile-group mb-3">
         <p className="mb-1 font-weight-bold">Description</p>
         <>
-          {(beneficiary.description.trim() === '' || beneficiary.description === undefined) &&
+          {beneficiary.description &&
+            beneficiary.description.trim() === '' &&
             'Aucune description enregistrée'}
 
-          {(beneficiary.description.trim() !== '' || beneficiary.description !== undefined) && (
+          {beneficiary.description && beneficiary.description.trim() !== '' && (
             <>
               {beneficiary.description.split('.').map(d => (
                 <p key={d} className="m-0 text-small">

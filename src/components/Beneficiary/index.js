@@ -4,7 +4,7 @@ import axios from 'axios';
 
 /* Packages */
 // import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Script from 'react-load-script';
@@ -12,6 +12,7 @@ import Script from 'react-load-script';
 /* Local Components */
 import Header from 'components/Header';
 import EmptyState from 'components/EmptyState';
+import Suggest from 'components/Suggest';
 // import Error403 from 'components/Error403';
 
 /* utils & data */
@@ -35,6 +36,9 @@ class Beneficiary extends React.Component {
     isGeoLocAccessible: true,
     itemsOrderedByDistance: [],
     beneficiaries: [],
+    beneficiariesByName: [],
+    suggest: { id: '', name: '' },
+    suggestSubmit: false,
   };
   // Avant d'afficher le composant on récupère la localisation via le navigateur et l'ensemble des shops
   componentDidMount = () => {
@@ -142,13 +146,62 @@ class Beneficiary extends React.Component {
       .catch(error => console.error('Error', error));
   };
 
+  searchBeneficiary = e => {
+    e.preventDefault();
+
+    if (e.target.value === '') {
+      this.setState({
+        beneficiariesByName: [],
+      });
+    }
+
+    const { token } = this.props;
+    axios
+      .get(`${process.env.REACT_APP_API_URL_DEV}/donor/search-beneficiary/?q=${e.target.value}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
+        this.setState({
+          beneficiariesByName: response.data.result,
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  searchBeneficiaryBlur = () => {
+    setTimeout(() => {
+      this.setState({
+        beneficiariesByName: [],
+      });
+    }, 1000);
+  };
+
+  handleBeneficiarySelect = select => {
+    this.setState({
+      suggest: { id: select._id, name: select.username },
+      suggestSubmit: true,
+    });
+  };
+
+  suggestSubmit = e => {
+    e.preventDefault();
+    this.setState({
+      suggestSubmit: true,
+    });
+  };
+
   render() {
-    const { beneficiaries } = this.state;
+    const { beneficiaries, beneficiariesByName } = this.state;
     const { currentUser, role } = this.props;
 
     if (currentUser.user !== undefined && role !== 'shopkeeper') {
       return (
-        <>
+        <div className="beneficiaries">
           <Script
             url={`https://maps.googleapis.com/maps/api/js?key=${
               process.env.REACT_APP_GOOGLE_MAP_API
@@ -168,73 +221,102 @@ class Beneficiary extends React.Component {
           )}
 
           {!this.state.isGeoLocAccessible && this.state.scriptLoaded && (
-            <div className="container mt-5 beneficiary-list">
-              <div className="row">
-                <div className="col">
-                  <p>
-                    Votre géolocalisation n'a pas pu être trouvée, veuillez l'autoriser dans votre
-                    navigateur ou renseigner une adresse.
-                  </p>
-                  <br />
-                  <h5>Trouver des bénéficiaires dont leur position a été renseignée</h5>
-                  <form onSubmit={this.submitAskLocation}>
-                    <PlacesAutocomplete
-                      value={this.state.location.address}
-                      onChange={this.handleChange}
-                      onSelect={this.handleSelect}
-                    >
-                      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                        <div>
-                          <input
-                            {...getInputProps({
-                              placeholder: 'Entrez une adresse',
-                              className: 'location-search-input form-control',
-                            })}
-                          />
-                          <div className="autocomplete-dropdown-container">
-                            {loading && <div>Loading...</div>}
-                            {suggestions.map(suggestion => {
-                              const className = suggestion.active
-                                ? 'suggestion-item--active'
-                                : 'suggestion-item';
-                              // inline style for demonstration purpose
-                              const style = suggestion.active
-                                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                                : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                              return (
-                                <div
-                                  {...getSuggestionItemProps(suggestion, {
-                                    className,
-                                    style,
-                                  })}
-                                >
-                                  <span>{suggestion.description}</span>
-                                </div>
-                              );
-                            })}
+            <>
+              <div className="container mt-5 beneficiary-list">
+                <div className="row">
+                  <div className="col">
+                    <p>
+                      Votre géolocalisation n'a pas pu être trouvée, veuillez l'autoriser dans votre
+                      navigateur ou renseigner une adresse.
+                    </p>
+                    <br />
+                    <h5>Trouver des bénéficiaires dont leur position a été renseignée</h5>
+                    <form onSubmit={this.submitAskLocation}>
+                      <PlacesAutocomplete
+                        value={this.state.location.address}
+                        onChange={this.handleChange}
+                        onSelect={this.handleSelect}
+                      >
+                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                          <div>
+                            <input
+                              {...getInputProps({
+                                placeholder: 'Entrez une adresse',
+                                className: 'location-search-input form-control',
+                              })}
+                            />
+                            <div className="autocomplete-dropdown-container">
+                              {loading && <div>Loading...</div>}
+                              {suggestions.map(suggestion => {
+                                const className = suggestion.active
+                                  ? 'suggestion-item--active'
+                                  : 'suggestion-item';
+                                // inline style for demonstration purpose
+                                const style = suggestion.active
+                                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                                return (
+                                  <div
+                                    {...getSuggestionItemProps(suggestion, {
+                                      className,
+                                      style,
+                                    })}
+                                  >
+                                    <span>{suggestion.description}</span>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </PlacesAutocomplete>
-                    <input
-                      type="submit"
-                      value="valider"
-                      className="btn btn-primary mt-4"
-                      name="submitAskLocation"
-                    />
-                  </form>
+                        )}
+                      </PlacesAutocomplete>
+                      <input
+                        type="submit"
+                        value="valider"
+                        className="btn btn-primary mt-4"
+                        name="submitAskLocation"
+                      />
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
 
-          <div className="container mt-5 beneficiary-list">
-            <div className="row">
-              <div className="col">
-                <h5>Trouver des bénéficiaires dont leur position n'a pas été renseignée</h5>
+              <div className="container mt-5 mb-5 beneficiary-list">
+                <div className="row">
+                  <div className="col">
+                    <h5>
+                      Trouver des bénéficiaires par leur nom
+                      <br />
+                      <span className="small">
+                        (incluant ce dont leur position n'a pas été renseignée)
+                      </span>
+                    </h5>
+
+                    <form onSubmit={this.suggestSubmit}>
+                      <div className="d-flex flex-column">
+                        <div className="form-group">
+                          <Suggest
+                            token={this.props.token}
+                            handleBeneficiarySelect={this.handleBeneficiarySelect}
+                            list={true}
+                          />
+                          <input
+                            type="submit"
+                            value="valider"
+                            className="btn btn-primary mt-4"
+                            name="submitSuggest"
+                          />
+                          {this.state.suggestSubmit && (
+                            <Redirect to={`/beneficiary/${this.state.suggest.id}`} />
+                          )}
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
 
           {this.state.isGeoLocAccessible && (
             <div className="container py-5 beneficiary-list">
@@ -281,15 +363,6 @@ class Beneficiary extends React.Component {
                           />
                           <div className="card-body">
                             <h4 className="card-title mb-0">{beneficiary.username}</h4>
-                            {profileSubtitles.length > 0 && (
-                              <span className="text-muted d-block">
-                                {
-                                  profileSubtitles[
-                                    Math.floor(Math.random() * profileSubtitles.length)
-                                  ]
-                                }
-                              </span>
-                            )}
 
                             {beneficiary.distance && beneficiary.distance !== 0 && (
                               <div className="distance card-subtitle mt-3 text-muted text-small d-inline-flex align-items-center">
@@ -320,18 +393,54 @@ class Beneficiary extends React.Component {
               )}
 
               {beneficiaries.length === 0 && (
-                <div className="row">
-                  <div className="col">
-                    <EmptyState
-                      className="mt-5"
-                      message="Oops, aucun bénéficiaire n'a été trouvé dans la zone selectionnée"
-                    />
+                <>
+                  <div className="row">
+                    <div className="col">
+                      <EmptyState
+                        className="mt-5"
+                        message="Oops, aucun bénéficiaire n'a été trouvé dans la zone selectionnée"
+                      />
+                    </div>
                   </div>
-                </div>
+                  <div className="container mt-5 mb-5 beneficiary-list">
+                    <div className="row">
+                      <div className="col">
+                        <h5>
+                          Trouver des bénéficiaires par leur nom
+                          <br />
+                          <span className="small">
+                            (incluant ce dont leur position n'a pas été renseignée)
+                          </span>
+                        </h5>
+
+                        <form onSubmit={this.suggestSubmit}>
+                          <div className="d-flex flex-column">
+                            <div className="form-group">
+                              <Suggest
+                                token={this.props.token}
+                                handleBeneficiarySelect={this.handleBeneficiarySelect}
+                                list={true}
+                              />
+                              <input
+                                type="submit"
+                                value="valider"
+                                className="btn btn-primary mt-4"
+                                name="submitSuggest"
+                              />
+                              {this.state.suggestSubmit && (
+                                <Redirect to={`/beneficiary/${this.state.suggest.id}`} />
+                              )}
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           )}
-        </>
+        </div>
       );
     }
   }

@@ -57,14 +57,6 @@ const ProfilHeader = ({ user, role, token, update, publicProfile = false }) => {
                 ) : (
                   ''
                 )}
-                {user.user.description ? (
-                  <>
-                    <b>Description:</b> {user.user.description}
-                    <br />
-                  </>
-                ) : (
-                  ''
-                )}
                 {user.user.categories ? (
                   <>
                     <b>Catégories:</b> {user.user.categories.join(', ')}

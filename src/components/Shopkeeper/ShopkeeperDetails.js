@@ -164,7 +164,6 @@ class ShopkeeperDetails extends Component {
 
   render() {
     const { shop, products, role, beneficiariesSuggests } = this.props;
-    console.log(this.props);
     document.title = `${shop.shopkeeper_name} - Aide ton prochain`;
     return (
       <>

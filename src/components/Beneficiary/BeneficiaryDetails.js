@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import Header from 'components/Header';
 
-import BeneficiaryDetails from 'components/Profil/Beneficiary';
+import Beneficiary from 'components/Profil/Beneficiary';
 import ProfilHeader from 'components/Profil/ProfilHeader';
 
 import './beneficiary.scss';
@@ -11,7 +11,7 @@ import '../Profil/profil.scss';
 
 import beneficiaryBackgroundImage from 'assets/img/background-beneficiary.jpg';
 
-class ShopkeeperDetails extends Component {
+class BeneficiaryDetails extends Component {
   componentDidMount() {
     const { token, role, getBeneficiary } = this.props;
     const beneficiaryId = this.props.match.params.id;
@@ -40,10 +40,10 @@ class ShopkeeperDetails extends Component {
                   <ProfilHeader
                     title={`${currentUser.user.username} (${role})`}
                     user={currentUser}
-                    role={role}
+                    role="beneficiary"
                     publicProfile={true}
                   />
-                  <BeneficiaryDetails currentUser={currentUser} role={role} publicProfile={true} />
+                  <Beneficiary currentUser={currentUser} role={role} publicProfile={true} />
                 </div>
               </div>
             </div>
@@ -54,4 +54,4 @@ class ShopkeeperDetails extends Component {
   }
 }
 
-export default withRouter(ShopkeeperDetails);
+export default withRouter(BeneficiaryDetails);

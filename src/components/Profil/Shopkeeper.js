@@ -27,6 +27,23 @@ class Shopkeeper extends React.Component {
 
     return (
       <>
+        <div className="profile-group mb-3">
+          <p className="mb-1 font-weight-bold">Description</p>
+          <>
+            {shop.description && shop.description.trim() === '' && 'Aucune description enregistrée'}
+
+            {shop.description && shop.description.trim() !== '' && (
+              <>
+                {shop.description.split('.').map(d => (
+                  <p key={d} className="m-0 text-small">
+                    {' '}
+                    {d}{' '}
+                  </p>
+                ))}
+              </>
+            )}
+          </>
+        </div>
         <p className="font-weight-bold">Horaires et coordonnées</p>
         {shop && (
           <div className="card">
