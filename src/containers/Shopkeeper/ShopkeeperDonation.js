@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
-import ShopkeeperDetails from 'components/Shopkeeper/ShopkeeperDetails';
-import { getShop, getProducts, searchBeneficiary, sendDonation } from 'store/actionMiddleware';
+import ShopkeeperDonation from 'components/Shopkeeper/ShopkeeperDonation';
+import { getShop, getProducts, sendDonation } from 'store/actionMiddleware';
 import { decodedToken } from 'utils';
 
 const mapStateToProps = state => {
@@ -11,8 +11,6 @@ const mapStateToProps = state => {
     token: state.user.currentUser.token,
     shop: state.shopkeeper.shopkeeper,
     products: state.product.products,
-    beneficiariesSuggests: state.beneficiary.beneficiaries,
-    donationConfirmMessage: state.shopkeeper.donationConfirmMessage,
   };
 };
 
@@ -23,17 +21,14 @@ const mapDispatchToProps = dispatch => ({
   getProducts: shopkeeperId => {
     dispatch(getProducts(shopkeeperId));
   },
-  searchBeneficiary: (textValue, token) => {
-    dispatch(searchBeneficiary(textValue, token));
-  },
-  sendDonation: (data, token) => {
-    dispatch(sendDonation(data, token));
+  sendDonation: (role, token, data) => {
+    dispatch(sendDonation(role, token, data));
   },
 });
 
-const ShopkeeperDetailsContainer = connect(
+const ShopkeeperDonationContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ShopkeeperDetails);
+)(ShopkeeperDonation);
 
-export default ShopkeeperDetailsContainer;
+export default ShopkeeperDonationContainer;

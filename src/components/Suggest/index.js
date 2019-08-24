@@ -48,12 +48,15 @@ class Suggest extends React.Component {
 
   onChange = (event, { newValue }) => {
     axios
-      .get(`${process.env.REACT_APP_API_URL_DEV}/donor/search-beneficiary/?q=${newValue}`, {
-        headers: {
-          Authorization: `Bearer ${this.props.token}`,
-          'Content-Type': 'application/json',
+      .get(
+        `${process.env.REACT_APP_API_URL_DEV}/${this.props.role}/search-beneficiary/?q=${newValue}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.token}`,
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
       .then(response => {
         this.setState({
           suggestions: response.data.result,
@@ -80,6 +83,7 @@ class Suggest extends React.Component {
     this.setState({
       suggestions: [],
     });
+    this.props.searchBeneficiaryClear(this.state.value);
   };
 
   onSuggestionSelected = (
@@ -87,9 +91,10 @@ class Suggest extends React.Component {
     { suggestion, suggestionValue, suggestionIndex, sectionIndex, method },
   ) => {
     event.preventDefault();
-    console.log(suggestion, suggestionValue, suggestionIndex, sectionIndex, method);
+    // console.log(suggestion, suggestionValue, suggestionIndex, sectionIndex, method);
     this.setState({
       suggestions: [],
+      beneficiariesByName: [],
     });
     this.props.handleBeneficiarySelect(suggestion);
   };
@@ -98,9 +103,10 @@ class Suggest extends React.Component {
     const { value, suggestions } = this.state;
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Entrez un nom libre',
+      placeholder: 'Entrez un nom',
       value,
       onChange: this.onChange,
+      onBlur: this.props.searchBeneficiaryBlur,
     };
 
     // Finally, render it!

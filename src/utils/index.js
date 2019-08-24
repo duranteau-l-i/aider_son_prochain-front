@@ -3,6 +3,8 @@ import * as geolib from 'geolib';
 import axios from 'axios';
 import * as serialize from 'form-serialize';
 
+import { deconnexion } from 'store/actionMiddleware';
+
 export const serializeFormData = form => {
   return serialize(form, { hash: true });
 };
@@ -18,6 +20,7 @@ export const decodedToken = token => {
     if (err) {
       if (err.message) {
         console.log(err.message);
+        localStorage.clear();
       }
     }
     if (decoded !== undefined) {

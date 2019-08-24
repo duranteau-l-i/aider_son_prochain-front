@@ -1,25 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { serializeFormData } from 'utils';
 import { Link } from 'react-router-dom';
 
 import Header from 'components/Header';
 import Input from 'components/Input';
 import Error403 from 'components/Error403';
 
-const AddProduct = ({
-  currentUser,
-  submitAddProductForm,
-  role,
-  message,
-  productAddedConfirmMessage,
-}) => {
-  const submitNewProduct = event => {
-    event.preventDefault();
-    const newProductObject = serializeFormData(event.target);
-    newProductObject.available = true;
-    submitAddProductForm(newProductObject, currentUser.token);
-    event.target.reset();
+import Modal from 'containers/Modal';
+
+const AddProduct = ({ currentUser, submitAddProductForm, role }) => {
+  const submitNewProduct = e => {
+    e.preventDefault();
+    console.log(e.target);
+    const data = {};
+    Array.from(e.target).forEach(el => {
+      if (el.value !== '') {
+        data[el.name] = el.value;
+      }
+    });
+    data.price = data.price.replace(',', '.');
+    submitAddProductForm(data, currentUser.token);
   };
   if (currentUser.user !== undefined && role === 'shopkeeper') {
     return (
@@ -29,21 +29,6 @@ const AddProduct = ({
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-6 col-lg-6 px-lg-5 bg-white py-5">
-              <h2 className="text-center mb-3">Ajout d'un nouveau produit à votre catalogue</h2>
-              {productAddedConfirmMessage && (
-                <div className={`alert alert-${productAddedConfirmMessage.type}`}>
-                  {productAddedConfirmMessage.message}
-                  {productAddedConfirmMessage.link && (
-                    <Link
-                      to={productAddedConfirmMessage.link.url}
-                      path={productAddedConfirmMessage.link.url}
-                      className="alert-link"
-                    >
-                      {' ' + productAddedConfirmMessage.link.label}
-                    </Link>
-                  )}
-                </div>
-              )}
               <form className="mt-4" onSubmit={submitNewProduct}>
                 <Input
                   label="Nom du produit"
@@ -84,6 +69,12 @@ const AddProduct = ({
             </div>
           </div>
         </div>
+        <Modal
+          title="Ajout d'un produit"
+          message="Le produit a été ajouté avec succès"
+          messageError="Le produit n'a pu être ajouté"
+          page="profil"
+        />
       </>
     );
   } else {
@@ -98,8 +89,6 @@ AddProduct.propTypes = {
   role: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
   submitAddProductForm: PropTypes.func.isRequired,
-  message: PropTypes.object.isRequired,
-  productAddedConfirmMessage: PropTypes.func.isRequired,
 };
 
 AddProduct.deaultProps = {};

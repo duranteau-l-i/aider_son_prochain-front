@@ -1,6 +1,5 @@
 const initialState = {
   donations: [],
-  donationConfirmMessage: {},
 };
 
 export const RECIEVE_DONATIONS = 'RECIEVE_DONATIONS';

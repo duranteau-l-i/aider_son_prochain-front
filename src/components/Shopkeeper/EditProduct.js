@@ -1,10 +1,10 @@
 import React from 'react';
-import { serializeFormData } from 'utils';
 import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Header from 'components/Header';
+import Modal from 'containers/Modal';
 
 class EditProduct extends React.Component {
   state = {
@@ -25,13 +25,18 @@ class EditProduct extends React.Component {
       });
   }
 
-  submitEditProduct = event => {
-    event.preventDefault();
+  submitEditProduct = e => {
+    e.preventDefault();
     const productId = this.state.product._id;
     const { submitEditProductForm, token } = this.props;
-    const newProductObject = serializeFormData(event.target);
-    submitEditProductForm(newProductObject, productId, token);
-    event.target.reset();
+    const data = {};
+    Array.from(e.target).forEach(el => {
+      if (el.value !== '') {
+        data[el.name] = el.value;
+      }
+    });
+    data.price = data.price.replace(',', '.');
+    submitEditProductForm(data, productId, token);
   };
 
   handleChange = e => {
@@ -43,7 +48,6 @@ class EditProduct extends React.Component {
 
   render() {
     const { name, price, description } = this.state.product;
-    const { productEditedConfirmMessage } = this.props;
     return (
       <>
         <Header title="Editer un produit" />
@@ -55,16 +59,6 @@ class EditProduct extends React.Component {
                 Edition du produit : <br />
                 <small>{name}</small>
               </h2>
-              {productEditedConfirmMessage && (
-                <div className={`alert alert-${productEditedConfirmMessage.type}`}>
-                  {productEditedConfirmMessage.message}
-                  {productEditedConfirmMessage.link && (
-                    <a href={productEditedConfirmMessage.link.url} className="alert-link">
-                      {' ' + productEditedConfirmMessage.link.label}
-                    </a>
-                  )}
-                </div>
-              )}
               <form className="mt-4" onSubmit={this.submitEditProduct}>
                 <div className="form-group">
                   <label htmlFor={name}>Nom du produit</label>
@@ -106,13 +100,19 @@ class EditProduct extends React.Component {
                     Retour au profil
                   </Link>
                   <button type="submit" className="btn btn-primary ml-4">
-                    Editer un produit
+                    Editer le produit
                   </button>
                 </div>
               </form>
             </div>
           </div>
         </div>
+        <Modal
+          title="Edition du produit"
+          message="Le produit a été mis à jour avec succès"
+          messageError="Le produit n'a pu être mis à jour"
+          page="profil"
+        />
       </>
     );
   }

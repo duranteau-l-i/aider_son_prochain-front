@@ -146,33 +146,6 @@ class Beneficiary extends React.Component {
       .catch(error => console.error('Error', error));
   };
 
-  searchBeneficiary = e => {
-    e.preventDefault();
-
-    if (e.target.value === '') {
-      this.setState({
-        beneficiariesByName: [],
-      });
-    }
-
-    const { token } = this.props;
-    axios
-      .get(`${process.env.REACT_APP_API_URL_DEV}/donor/search-beneficiary/?q=${e.target.value}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(response => {
-        this.setState({
-          beneficiariesByName: response.data.result,
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
   searchBeneficiaryBlur = () => {
     setTimeout(() => {
       this.setState({
@@ -296,8 +269,10 @@ class Beneficiary extends React.Component {
                       <div className="d-flex flex-column">
                         <div className="form-group">
                           <Suggest
+                            role={this.props.role}
                             token={this.props.token}
                             handleBeneficiarySelect={this.handleBeneficiarySelect}
+                            searchBeneficiaryBlur={this.searchBeneficiaryBlur}
                             list={true}
                           />
                           <input

@@ -20,7 +20,7 @@ import ProfilUpdate from 'containers/ProfilUpdate';
 import Beneficiary from 'containers/Beneficiary';
 import BeneficiaryDetails from 'containers/Beneficiary/BeneficiaryDetails';
 import Shopkeeper from 'containers/Shopkeeper';
-import ShopkeeperDetails from 'containers/Shopkeeper/ShopkeeperDetails';
+import ShopkeeperDonation from 'containers/Shopkeeper/ShopkeeperDonation';
 import AddProduct from 'containers/Shopkeeper/AddProduct';
 import EditProduct from 'containers/Shopkeeper/EditProduct';
 import Donations from 'containers/Donation';
@@ -118,7 +118,7 @@ const App = () => (
         key="/shopkeeper/:id"
         path="/shopkeeper/:id"
         render={() => {
-          return <ShopkeeperDetails />;
+          return <ShopkeeperDonation />;
         }}
       />
       <Route

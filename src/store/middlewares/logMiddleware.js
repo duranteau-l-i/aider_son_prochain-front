@@ -1,7 +1,6 @@
 import { SUBMIT_LOGIN, SUBMIT_REGISTER, DECONNEXION } from 'store/actionMiddleware';
-import { recieveCurrentUser, confirmRegister, confirmLogin } from 'store/reducers/user';
+import { recieveCurrentUser } from 'store/reducers/user';
 import { modalShow } from 'store/reducers/modal';
-import { alert } from 'store/reducers/utils';
 //import { decodedToken } from 'utils';
 
 import axios from 'axios';
@@ -16,7 +15,6 @@ const logMiddleware = store => next => action => {
           },
         })
         .then(response => {
-          store.dispatch(confirmRegister());
           store.dispatch(modalShow(true, false));
         })
         .catch(e => {
@@ -53,6 +51,7 @@ const logMiddleware = store => next => action => {
         })
         .catch(e => {
           console.log(e.message);
+          store.dispatch(recieveCurrentUser({}));
         });
       store.dispatch(recieveCurrentUser({}));
       break;

@@ -22,35 +22,34 @@
 .table > tbody > tr > td {
   vertical-align: middle;
 }
+
 table {
   thead {
     th {
-      border-bottom: none !important;
       text-transform: uppercase;
-      font-weight: normal;
+      // text-align: center;
     }
   }
   td {
-    &.selector {
-      width: 84px;
+    // text-align: center;
+    button {
+      margin: 5px;
     }
   }
 }
 
-.product-row {
-  cursor: pointer;
-  .action-links {
-    opacity: 0;
-    a:first-child {
-      margin-right: 1rem;
-    }
-  }
-  &:hover {
-    .action-links {
-      opacity: 1;
-    }
-  }
-}
+// .product-row {
+//   cursor: pointer;
+//   .action-links {
+//     a:first-child {
+//       margin-right: 1rem;
+//     }
+//   }
+//   &:hover {
+//     .action-links {
+//     }
+//   }
+// }
 
 .suggests-container {
   position: relative;

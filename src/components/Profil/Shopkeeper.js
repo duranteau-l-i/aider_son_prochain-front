@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ProductSelector from 'components/Shopkeeper/ProductSelector';
+import Product from 'containers/Shopkeeper/Product';
 import OpeningHours from 'components/Shopkeeper/OpeningHours';
 
 class Shopkeeper extends React.Component {
@@ -10,19 +10,19 @@ class Shopkeeper extends React.Component {
     getProducts(shopkeeperId);
   }
 
-  clickDeleteProduct = evt => {
-    const confirmDelete = window.confirm('Voulez-vous vraiement supprimer ce produit ?');
-    if (confirmDelete) {
-      const { token, deleteProduct, getProducts } = this.props;
-      const productId = evt.target.dataset.id;
-      deleteProduct(token, productId);
-      const shopkeeperId = this.props.currentUser.user._id;
-      getProducts(shopkeeperId);
-    }
-  };
+  // clickDeleteProduct = evt => {
+  //   const confirmDelete = window.confirm('Voulez-vous vraiement supprimer ce produit ?');
+  //   if (confirmDelete) {
+  //     const { token, deleteProduct, getProducts } = this.props;
+  //     const productId = evt.target.dataset.id;
+  //     deleteProduct(token, productId);
+  //     const shopkeeperId = this.props.currentUser.user._id;
+  //     getProducts(shopkeeperId);
+  //   }
+  // };
 
   render() {
-    const { role, products } = this.props;
+    const { role, token } = this.props;
     const shop = this.props.currentUser.user;
 
     return (
@@ -71,13 +71,9 @@ class Shopkeeper extends React.Component {
           </div>
         )}
 
-        {products && shop && (role === 'shopkeeper' || role === 'donor') && (
+        {shop && (role === 'shopkeeper' || role === 'donor') && (
           <div className="mt-5">
-            <ProductSelector
-              products={products}
-              role={role}
-              clickDeleteProduct={this.clickDeleteProduct}
-            />
+            <Product />
           </div>
         )}
       </>

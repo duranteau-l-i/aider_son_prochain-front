@@ -1,9 +1,6 @@
 // log middleware
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
 export const SUBMIT_REGISTER = 'SUBMIT_REGISTER';
-export const INIT_REGISTER = 'INIT_REGISTER';
-export const INIT_LOGIN = 'INIT_LOGIN';
-export const INIT_PROFILE_UPDATE = 'INIT_PROFILE_UPDATE';
 export const DECONNEXION = 'DECONNEXION';
 
 export const submitLogin = data => ({
@@ -15,18 +12,6 @@ export const submitRegister = (data, role) => ({
   type: SUBMIT_REGISTER,
   data,
   role,
-});
-
-export const initRegister = () => ({
-  type: INIT_REGISTER,
-});
-
-export const initProfileUpdate = () => ({
-  type: INIT_PROFILE_UPDATE,
-});
-
-export const initLogin = () => ({
-  type: INIT_LOGIN,
 });
 
 export const deconnexion = (token, role) => ({
@@ -121,10 +106,11 @@ export const searchBeneficiary = (textValue, token) => ({
 
 export const SEND_DONATION = 'SEND_DONATION';
 
-export const sendDonation = (data, token) => ({
+export const sendDonation = (role, token, data) => ({
   type: SEND_DONATION,
-  data,
+  role,
   token,
+  data,
 });
 
 export const GET_DONATIONS = 'GET_DONATIONS';

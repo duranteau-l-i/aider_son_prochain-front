@@ -67,22 +67,25 @@ class Donations extends React.Component {
               <div className="col col-md-6">
                 {used.length <= 0 && notUsed.length <= 0 && (
                   <>
-                    {role === 'donor' ? (
+                    {role === 'donor' && (
                       <EmptyState
                         message="Oops, vous n'avez pas fait de donation, Vous pouvez en faire une en visitant les commerces à proximité"
                         link={{ url: '/shopkeeper', label: 'Voir les commerces' }}
                       />
-                    ) : role === 'shopkeeper' ? (
+                    )}
+
+                    {role === 'shopkeeper' && (
                       <EmptyState
                         message="Oops, il n'y a pas de transaction en cours dans votre établissement"
-                        link={{ url: '/', label: "Retour à l'accueil" }}
+                        link={{ url: '/profil', label: 'Retour au profil' }}
                       />
-                    ) : role === 'beneficiary' ? (
+                    )}
+                    {role === 'beneficiary' && (
                       <EmptyState
                         message="Oops, vous n'avez pas encore reçu de don."
-                        link={{ url: '/', label: "Retour à l'accueil" }}
+                        link={{ url: '/profil', label: 'Retour au profil' }}
                       />
-                    ) : null}
+                    )}
                   </>
                 )}
                 {notUsed.length > 0 &&

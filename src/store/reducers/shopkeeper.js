@@ -21,19 +21,10 @@ const shopkeeper = (state = initialState, action = {}) => {
       return {
         ...state,
         shopkeeper: action.data.shopkeeper,
-        donationConfirmMessage: {},
       };
     case CONFIRM_DONATION:
       return {
         ...state,
-        donationConfirmMessage: {
-          type: 'success',
-          message: 'Donation validée, merci beaucoup !',
-          link: {
-            label: 'voir les donations',
-            url: '/donations',
-          },
-        },
       };
     default:
       return state;

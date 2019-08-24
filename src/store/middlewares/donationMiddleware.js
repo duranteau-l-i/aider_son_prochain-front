@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { recieveDonations } from 'store/reducers/donation';
-import { confirmDonation } from 'store/reducers/shopkeeper';
+import { modalShow } from 'store/reducers/modal';
 import { SEND_DONATION, GET_DONATIONS, VALIDATE_DONATION } from 'store/actionMiddleware';
 
 const shopkeeperMiddleware = store => next => action => {
@@ -22,17 +22,18 @@ const shopkeeperMiddleware = store => next => action => {
       break;
     case SEND_DONATION:
       axios
-        .post(`${process.env.REACT_APP_API_URL_DEV}/donor/donation/`, action.data, {
+        .post(`${process.env.REACT_APP_API_URL_DEV}/${action.role}/donation/`, action.data, {
           headers: {
             Authorization: `Bearer ${action.token}`,
             'Content-Type': 'application/json',
           },
         })
         .then(response => {
-          store.dispatch(confirmDonation());
+          store.dispatch(modalShow(true, false));
         })
         .catch(e => {
           console.log("Impossible d'envoyer la donation", e);
+          store.dispatch(modalShow(false, true));
         });
       break;
     case VALIDATE_DONATION:

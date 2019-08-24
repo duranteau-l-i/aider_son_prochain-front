@@ -9,14 +9,10 @@ const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
   role: decodedToken(state.user.currentUser.token).role,
   token: state.user.currentUser.token,
-  profileUpdated: state.user.profileUpdated,
   show: state.modal.show,
 });
 
 const mapDispatchToProps = dispatch => ({
-  initProfileUpdate: () => {
-    dispatch(initProfileUpdate());
-  },
   updateProfile: (data, role, token) => {
     dispatch(updateProfile(data, role, token));
   },

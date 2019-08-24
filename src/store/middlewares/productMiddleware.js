@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ADD_PRODUCT, GET_PRODUCTS, recieveProducts } from 'store/reducers/product';
-import { confirmProductAdded, confirmProductEdited } from 'store/reducers/product';
+import { modalShow } from 'store/reducers/modal';
 
 import { DELETE_PRODUCT, getProducts, EDIT_PRODUCT } from 'store/actionMiddleware';
 
@@ -21,11 +21,12 @@ const productMiddleware = store => next => action => {
           },
         )
         .then(response => {
-          store.dispatch(confirmProductEdited());
           store.dispatch(recieveProducts(response.data.products, response.data.shopkeeper));
+          store.dispatch(modalShow(true, false));
         })
         .catch(e => {
           console.log(e);
+          store.dispatch(modalShow(false, true));
         });
       break;
     case GET_PRODUCTS:
@@ -47,10 +48,11 @@ const productMiddleware = store => next => action => {
           },
         })
         .then(response => {
-          store.dispatch(confirmProductAdded());
+          store.dispatch(modalShow(true, false));
         })
         .catch(e => {
           console.log(e);
+          store.dispatch(modalShow(false, true));
         });
       break;
     case DELETE_PRODUCT:
@@ -67,6 +69,7 @@ const productMiddleware = store => next => action => {
         })
         .catch(e => {
           console.log('Impossible de supprimer le produit', e);
+          store.dispatch(modalShow(false, true));
         });
       break;
     default:

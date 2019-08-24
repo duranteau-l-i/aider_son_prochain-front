@@ -49,7 +49,7 @@ const ProfilHeader = ({ user, role, token, update, publicProfile = false }) => {
                 ) : (
                   ''
                 )}
-                {user.user.email ? (
+                {role === 'shopkeeper' && user.user.email ? (
                   <>
                     <b>Email:</b> {user.user.email}
                     <br />
