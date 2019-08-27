@@ -1,8 +1,9 @@
 /* React */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /* Packages */
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import axios from 'axios';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
@@ -11,6 +12,8 @@ import Script from 'react-load-script';
 /* Local Components */
 import Header from 'components/Header';
 import EmptyState from 'components/EmptyState';
+import Suggest from 'components/Suggest';
+import Error403 from 'components/Error403';
 
 /* medias */
 import shopKeepersBackgroundImage from 'assets/img/background-shopkeepers.jpg';
@@ -27,10 +30,13 @@ class Shopkeeper extends React.Component {
     isGeoLocAccessible: true,
     itemsOrderedByDistance: [],
     shops: [],
+    shopsByName: [],
+    suggest: { id: '', name: '' },
+    suggestSubmit: false,
   };
 
   componentDidMount = () => {
-    document.title = `Commerces à proximité - Aide ton prochain`;
+    document.title = `Commerces à proximité - Aider son prochain`;
 
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -63,13 +69,14 @@ class Shopkeeper extends React.Component {
   };
 
   getShops = (latitude, longitude, km) => {
+    const { role, token } = this.props;
     axios
       .post(
-        `${process.env.REACT_APP_API_URL_DEV}/${this.props.role}/shopkeepers-distance`,
+        `${process.env.REACT_APP_API_URL_DEV}/${role}/shopkeepers-distance`,
         { latitude, longitude, km },
         {
           headers: {
-            Authorization: `Bearer ${this.props.token}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         },
@@ -89,7 +96,9 @@ class Shopkeeper extends React.Component {
   submitAskLocation = async evt => {
     evt.preventDefault();
     const { latitude, longitude } = this.state.location;
-    await this.getShops(latitude, longitude, 30);
+    if (latitude !== 0) {
+      await this.getShops(latitude, longitude, 30);
+    }
   };
 
   onChangeSelect = evt => {
@@ -133,16 +142,38 @@ class Shopkeeper extends React.Component {
       .catch(error => console.error('Error', error));
   };
 
+  // search by name
+  searchSuggestClear = value => {};
+
+  handleSuggestSelect = select => {
+    this.setState({
+      suggest: { id: select._id, name: select.username },
+      suggestSubmit: true,
+    });
+  };
+
+  suggestSubmit = e => {
+    e.preventDefault();
+    this.setState({
+      suggestSubmit: true,
+    });
+  };
+
   render() {
-    const { shops } = this.state;
-    const { currentUser, role } = this.props;
+    const {
+      shops,
+      isGeoLocAccessible,
+      location,
+      scriptLoaded,
+      suggestSubmit,
+      suggest,
+    } = this.state;
+    const { currentUser, role, token } = this.props;
     if (currentUser.user !== undefined && role !== 'shopkeeper') {
       return (
         <>
           <Script
-            url={`https://maps.googleapis.com/maps/api/js?key=${
-              process.env.REACT_APP_GOOGLE_MAP_API
-            }&libraries=places`}
+            url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API}&libraries=places`}
             onLoad={this.onLoad}
           />
           <Header
@@ -150,73 +181,104 @@ class Shopkeeper extends React.Component {
             backgroundImage={shopKeepersBackgroundImage}
             theme="dark"
           />
-          {this.state.isGeoLocAccessible && this.state.location.latitude === 0 && (
+          {isGeoLocAccessible && location.latitude === 0 && (
             <EmptyState
               className="mt-5"
               message="Oops, Veuillez nous accorder l'autorisation d'utiliser votre gélocalisation"
             />
           )}
 
-          {!this.state.isGeoLocAccessible && this.state.scriptLoaded && (
-            <div className="container py-5 shopkeeper-list">
-              <div className="row">
-                <div className="col">
-                  <p>
-                    Votre géolocalisation n'a pas pu être trouvée, veuillez l'autoriser dans votre
-                    navigateur ou renseigner une adresse.
-                  </p>
-                  <form onSubmit={this.submitAskLocation}>
-                    <PlacesAutocomplete
-                      value={this.state.location.address}
-                      onChange={this.handleChange}
-                      onSelect={this.handleSelect}
-                    >
-                      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                        <div>
-                          <input
-                            {...getInputProps({
-                              placeholder: 'Entrez une adresse',
-                              className: 'location-search-input form-control',
-                            })}
-                          />
-                          <div className="autocomplete-dropdown-container">
-                            {loading && <div>Loading...</div>}
-                            {suggestions.map(suggestion => {
-                              const className = suggestion.active
-                                ? 'suggestion-item--active'
-                                : 'suggestion-item';
-                              // inline style for demonstration purpose
-                              const style = suggestion.active
-                                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                                : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                              return (
-                                <div
-                                  {...getSuggestionItemProps(suggestion, {
-                                    className,
-                                    style,
-                                  })}
-                                >
-                                  <span>{suggestion.description}</span>
-                                </div>
-                              );
-                            })}
+          {!isGeoLocAccessible && scriptLoaded && (
+            <>
+              <div className="container py-5 shopkeeper-list">
+                <div className="row">
+                  <div className="col">
+                    <p>
+                      Votre géolocalisation n'a pas pu être trouvée, veuillez l'autoriser dans votre
+                      navigateur ou renseigner une adresse.
+                    </p>
+                    <form onSubmit={this.submitAskLocation}>
+                      <PlacesAutocomplete
+                        value={location.address}
+                        onChange={this.handleChange}
+                        onSelect={this.handleSelect}
+                      >
+                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                          <div>
+                            <input
+                              {...getInputProps({
+                                placeholder: 'Entrez une adresse',
+                                className: 'location-search-input form-control',
+                              })}
+                            />
+                            <div className="autocomplete-dropdown-container">
+                              {loading && <div>Loading...</div>}
+                              {suggestions.map(suggestion => {
+                                const className = suggestion.active
+                                  ? 'suggestion-item--active'
+                                  : 'suggestion-item';
+                                // inline style for demonstration purpose
+                                const style = suggestion.active
+                                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                                return (
+                                  <div
+                                    {...getSuggestionItemProps(suggestion, {
+                                      className,
+                                      style,
+                                    })}
+                                  >
+                                    <span>{suggestion.description}</span>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </PlacesAutocomplete>
-                    <input
-                      type="submit"
-                      value="valider"
-                      className="btn btn-custom-accent mt-4"
-                      name="submitAskLocation"
-                    />
-                  </form>
+                        )}
+                      </PlacesAutocomplete>
+                      <input
+                        type="submit"
+                        value="valider"
+                        className="btn btn-primary mt-4"
+                        name="submitAskLocation"
+                      />
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>
+              <div className="container mb-5 shop-list">
+                <div className="row">
+                  <div className="col">
+                    <h5>Trouver des commerçants par leur nom</h5>
+
+                    <form onSubmit={this.suggestSubmit}>
+                      <div className="d-flex flex-column">
+                        <div className="form-group">
+                          <Suggest
+                            role={role}
+                            token={token}
+                            who="shopkeeper"
+                            handleSuggestSelect={this.handleSuggestSelect}
+                            searchSuggestClear={this.searchSuggestClear}
+                            list={true}
+                          />
+                          <input
+                            type="submit"
+                            value="valider"
+                            className="btn btn-primary mt-4"
+                            name="submitSuggest"
+                          />
+                          {suggestSubmit && <Redirect to={`/shopkeeper/${suggest.id}`} />}
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </>
           )}
 
-          {this.state.isGeoLocAccessible && (
+          {isGeoLocAccessible && (
             <div className="container py-5 shopkeeper-list">
               <div className="row my-3">
                 <div className="col-12">
@@ -300,8 +362,18 @@ class Shopkeeper extends React.Component {
           )}
         </>
       );
+    } else {
+      return (
+        <Error403 message="Vous ne pouvez pas accéder à cette page, vous n'êtes pas connectés" />
+      );
     }
   }
 }
+
+Shopkeeper.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+};
 
 export default Shopkeeper;

@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import defaultAvatar from 'assets/img/default-avatar.png';
 
-const ProfilHeader = ({ user, role, token, update, publicProfile = false }) => {
+const ProfilHeader = ({ user, role, update, publicProfile = false }) => {
   return (
     <>
       <header className="d-flex justify-content-between mb-5">
@@ -71,6 +72,11 @@ const ProfilHeader = ({ user, role, token, update, publicProfile = false }) => {
       </header>
     </>
   );
+};
+
+ProfilHeader.propTypes = {
+  user: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
 };
 
 export default ProfilHeader;

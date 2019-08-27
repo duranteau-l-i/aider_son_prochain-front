@@ -1,12 +1,4 @@
-const initialState = {
-  donors: ['tintin'],
-  beneficiariesSuggests: [
-    {
-      name: 'Michel',
-      id: 564684846545646,
-    },
-  ],
-};
+const initialState = {};
 
 export const FAKE = 'FAKE';
 

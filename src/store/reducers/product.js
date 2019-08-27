@@ -1,8 +1,6 @@
 const initialState = {
   products: [],
   shop: {},
-  productAddedConfirmMessage: {},
-  productEditedConfirmMessage: {},
 };
 
 export const GET_PRODUCTS = 'GET_PRODUCTS';
@@ -45,7 +43,7 @@ export const addProduct = (data, token) => ({
   token,
 });
 
-export const getDeletedProduct = data => ({
+export const deletedProduct = data => ({
   type: DELETED_PRODUCT,
   data,
 });

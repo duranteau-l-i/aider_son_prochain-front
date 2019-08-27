@@ -1,6 +1,7 @@
 /* React */
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 /* Packages */
 // import PropTypes from 'prop-types';
@@ -13,10 +14,9 @@ import Script from 'react-load-script';
 import Header from 'components/Header';
 import EmptyState from 'components/EmptyState';
 import Suggest from 'components/Suggest';
-// import Error403 from 'components/Error403';
+import Error403 from 'components/Error403';
 
 /* utils & data */
-import profileSubtitles from 'data/profileSubtitles';
 import defaultAvatar from 'assets/img/default-avatar.png';
 
 /* Css */
@@ -36,13 +36,12 @@ class Beneficiary extends React.Component {
     isGeoLocAccessible: true,
     itemsOrderedByDistance: [],
     beneficiaries: [],
-    beneficiariesByName: [],
     suggest: { id: '', name: '' },
     suggestSubmit: false,
   };
   // Avant d'afficher le composant on récupère la localisation via le navigateur et l'ensemble des shops
   componentDidMount = () => {
-    document.title = `Personnes à proximité - Aide ton prochain`;
+    document.title = `Personnes à proximité - Aider son prochain`;
 
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -75,13 +74,14 @@ class Beneficiary extends React.Component {
   };
 
   getBeneficiaries = (latitude, longitude, km) => {
+    const { role, token } = this.props;
     axios
       .post(
-        `${process.env.REACT_APP_API_URL_DEV}/${this.props.role}/beneficiaries-distance`,
+        `${process.env.REACT_APP_API_URL_DEV}/${role}/beneficiaries-distance`,
         { latitude, longitude, km },
         {
           headers: {
-            Authorization: `Bearer ${this.props.token}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         },
@@ -98,11 +98,13 @@ class Beneficiary extends React.Component {
       });
   };
 
-  // Soumission du formulaire avec adresse manuell
+  // Soumission du formulaire avec adresse manuelle
   submitAskLocation = async evt => {
     evt.preventDefault();
     const { latitude, longitude } = this.state.location;
-    await this.getBeneficiaries(latitude, longitude, 30);
+    if (latitude !== 0) {
+      await this.getBeneficiaries(latitude, longitude, 30);
+    }
   };
 
   onChangeSelect = evt => {
@@ -146,20 +148,15 @@ class Beneficiary extends React.Component {
       .catch(error => console.error('Error', error));
   };
 
-  searchBeneficiaryBlur = () => {
-    setTimeout(() => {
-      this.setState({
-        beneficiariesByName: [],
-      });
-    }, 1000);
-  };
-
-  handleBeneficiarySelect = select => {
+  // search by name
+  handleSuggestSelect = select => {
     this.setState({
       suggest: { id: select._id, name: select.username },
       suggestSubmit: true,
     });
   };
+
+  searchSuggestClear = value => {};
 
   suggestSubmit = e => {
     e.preventDefault();
@@ -169,16 +166,21 @@ class Beneficiary extends React.Component {
   };
 
   render() {
-    const { beneficiaries, beneficiariesByName } = this.state;
-    const { currentUser, role } = this.props;
+    const {
+      beneficiaries,
+      isGeoLocAccessible,
+      location,
+      scriptLoaded,
+      suggestSubmit,
+      suggest,
+    } = this.state;
+    const { currentUser, role, token } = this.props;
 
     if (currentUser.user !== undefined && role !== 'shopkeeper') {
       return (
         <div className="beneficiaries">
           <Script
-            url={`https://maps.googleapis.com/maps/api/js?key=${
-              process.env.REACT_APP_GOOGLE_MAP_API
-            }&libraries=places`}
+            url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API}&libraries=places`}
             onLoad={this.onLoad}
           />
           <Header
@@ -186,14 +188,14 @@ class Beneficiary extends React.Component {
             backgroundImage={shopKeepersBackgroundImage}
             theme="dark"
           />
-          {this.state.isGeoLocAccessible && this.state.location.latitude === 0 && (
+          {isGeoLocAccessible && location.latitude === 0 && (
             <EmptyState
               className="mt-5"
               message="Oops, Veuillez nous accorder l'autorisation d'utiliser votre gélocalisation"
             />
           )}
 
-          {!this.state.isGeoLocAccessible && this.state.scriptLoaded && (
+          {!isGeoLocAccessible && scriptLoaded && (
             <>
               <div className="container mt-5 beneficiary-list">
                 <div className="row">
@@ -206,7 +208,7 @@ class Beneficiary extends React.Component {
                     <h5>Trouver des bénéficiaires dont leur position a été renseignée</h5>
                     <form onSubmit={this.submitAskLocation}>
                       <PlacesAutocomplete
-                        value={this.state.location.address}
+                        value={location.address}
                         onChange={this.handleChange}
                         onSelect={this.handleSelect}
                       >
@@ -269,10 +271,11 @@ class Beneficiary extends React.Component {
                       <div className="d-flex flex-column">
                         <div className="form-group">
                           <Suggest
-                            role={this.props.role}
-                            token={this.props.token}
-                            handleBeneficiarySelect={this.handleBeneficiarySelect}
-                            searchBeneficiaryBlur={this.searchBeneficiaryBlur}
+                            role={role}
+                            token={token}
+                            who="beneficiary"
+                            handleSuggestSelect={this.handleSuggestSelect}
+                            searchSuggestClear={this.searchSuggestClear}
                             list={true}
                           />
                           <input
@@ -281,9 +284,7 @@ class Beneficiary extends React.Component {
                             className="btn btn-primary mt-4"
                             name="submitSuggest"
                           />
-                          {this.state.suggestSubmit && (
-                            <Redirect to={`/beneficiary/${this.state.suggest.id}`} />
-                          )}
+                          {suggestSubmit && <Redirect to={`/beneficiary/${suggest.id}`} />}
                         </div>
                       </div>
                     </form>
@@ -293,7 +294,7 @@ class Beneficiary extends React.Component {
             </>
           )}
 
-          {this.state.isGeoLocAccessible && (
+          {isGeoLocAccessible && (
             <div className="container py-5 beneficiary-list">
               <div className="row my-3">
                 <div className="col-12">
@@ -392,7 +393,7 @@ class Beneficiary extends React.Component {
                           <div className="d-flex flex-column">
                             <div className="form-group">
                               <Suggest
-                                token={this.props.token}
+                                token={token}
                                 handleBeneficiarySelect={this.handleBeneficiarySelect}
                                 list={true}
                               />
@@ -402,9 +403,7 @@ class Beneficiary extends React.Component {
                                 className="btn btn-primary mt-4"
                                 name="submitSuggest"
                               />
-                              {this.state.suggestSubmit && (
-                                <Redirect to={`/beneficiary/${this.state.suggest.id}`} />
-                              )}
+                              {suggestSubmit && <Redirect to={`/beneficiary/${suggest.id}`} />}
                             </div>
                           </div>
                         </form>
@@ -417,8 +416,18 @@ class Beneficiary extends React.Component {
           )}
         </div>
       );
+    } else {
+      return (
+        <Error403 message="Vous ne pouvez pas accéder à cette page, vous n'êtes pas connectés" />
+      );
     }
   }
 }
+
+Beneficiary.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+};
 
 export default Beneficiary;

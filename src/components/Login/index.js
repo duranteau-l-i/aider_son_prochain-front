@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router-dom';
 
 import Header from 'components/Header';
 import Input from 'components/Input';
+import Modal from 'containers/Modal';
+
 import './login.scss';
 import loginBackgroundImage from 'assets/img/welcome.jpg';
 
 const Login = ({ currentUser, submitLogin }) => {
-  // componentDidMount() {
-  //   document.title = `Connexion - Aide ton prochain`;
-  // }
+  useEffect(() => {
+    document.title = `Connexion - Aider son prochain`;
+  });
 
   const submitLoginForm = e => {
     e.preventDefault();
@@ -61,6 +63,7 @@ const Login = ({ currentUser, submitLogin }) => {
                 name="password"
                 placeholder="******"
                 required={true}
+                minLength={6}
               />
               <button type="submit" className="mt-4 btn btn-primary btn-block">
                 Se connecter
@@ -69,11 +72,18 @@ const Login = ({ currentUser, submitLogin }) => {
           </div>
         </div>
       </div>
+      <Modal
+        title="Connexion"
+        message="connexion"
+        messageError="Les informations saisies ne sont pas correct."
+        page="profil"
+      />
     </>
   );
 };
 
 Login.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   submitLogin: PropTypes.func.isRequired,
 };
 

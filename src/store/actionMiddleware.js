@@ -51,17 +51,7 @@ export const editProduct = (data, productId, token) => ({
 });
 
 // shopkeeper middleware
-
-export const GET_SHOPS = 'GET_SHOPS';
 export const GET_SHOP = 'GET_SHOP';
-
-export const getShops = (role, token, location, maxDist) => ({
-  type: GET_SHOPS,
-  role,
-  token,
-  location,
-  maxDist,
-});
 
 export const getShop = (role, token, shopkeeperId) => ({
   type: GET_SHOP,
@@ -71,19 +61,7 @@ export const getShop = (role, token, shopkeeperId) => ({
 });
 
 // beneficiary middleware
-
-export const GET_BENEFICIARIES = 'GET_BENEFICIARIES';
 export const GET_BENEFICIARY = 'GET_BENEFICIARY';
-
-export const getBeneficiaries = (role, token, location, maxDist) => {
-  return {
-    type: GET_BENEFICIARIES,
-    role,
-    token,
-    location,
-    maxDist,
-  };
-};
 
 export const getBeneficiary = (role, token, beneficiaryId) => ({
   type: GET_BENEFICIARY,
@@ -93,7 +71,6 @@ export const getBeneficiary = (role, token, beneficiaryId) => ({
 });
 
 // donor search beneficiary middleware
-
 export const SEARCH_BENEFICIARY = 'SEARCH_BENEFICIARY';
 
 export const searchBeneficiary = (textValue, token) => ({
@@ -103,7 +80,6 @@ export const searchBeneficiary = (textValue, token) => ({
 });
 
 // donation middleware
-
 export const SEND_DONATION = 'SEND_DONATION';
 
 export const sendDonation = (role, token, data) => ({

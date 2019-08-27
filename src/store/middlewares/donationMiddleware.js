@@ -49,7 +49,7 @@ const shopkeeperMiddleware = store => next => action => {
           },
         )
         .then(response => {
-          //store.dispatch(confirmValidatedTransaction());
+          console.log("Donation validé", response.data);
         })
         .catch(e => {
           console.log("Impossible d'envoyer la donation", e);

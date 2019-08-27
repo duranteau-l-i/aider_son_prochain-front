@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import ShopkeeperDetails from 'components/Profil/Shopkeeper';
+import Shopkeeper from 'components/Profil/Shopkeeper';
 import { getShop, getProducts, deleteProduct } from 'store/actionMiddleware';
 import { decodedToken } from 'utils';
 
@@ -29,6 +29,6 @@ const mapDispatchToProps = dispatch => ({
 const ProfilShopkeeperContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ShopkeeperDetails);
+)(Shopkeeper);
 
 export default ProfilShopkeeperContainer;

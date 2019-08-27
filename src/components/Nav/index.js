@@ -81,6 +81,7 @@ const Nav = ({ currentUser, role, theme, deconnexion, match }) => {
 Nav.propTypes = {
   currentUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  deconnexion: PropTypes.func.isRequired,
 };
 
 export default withRouter(Nav);

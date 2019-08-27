@@ -169,9 +169,7 @@ const ShopkeeperProfilUpdate = ({ currentUser, updateProfile, role, token }) => 
   return (
     <>
       <Script
-        url={`https://maps.googleapis.com/maps/api/js?key=${
-          process.env.REACT_APP_GOOGLE_MAP_API
-        }&libraries=places`}
+        url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API}&libraries=places`}
         onLoad={onLoad}
       />
       {scriptLoaded && (
@@ -343,6 +341,7 @@ const ShopkeeperProfilUpdate = ({ currentUser, updateProfile, role, token }) => 
             <textarea
               className="form-control mt-2"
               name="description"
+              id="description"
               aria-label="With textarea"
               rows="5"
               placeholder={
@@ -1164,6 +1163,9 @@ const ShopkeeperProfilUpdate = ({ currentUser, updateProfile, role, token }) => 
 
 ShopkeeperProfilUpdate.propTypes = {
   currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  updateProfile: PropTypes.func.isRequired,
 };
 
 export default withRouter(ShopkeeperProfilUpdate);

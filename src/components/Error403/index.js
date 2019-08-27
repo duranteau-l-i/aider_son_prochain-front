@@ -6,7 +6,7 @@ import './error403.scss';
 
 const Error403 = () => (
   <>
-    <Header title="Erreur 403" />
+    <Header title="Accès refusé" />
     <div className="container mt-4 py-5">
       <div className="row justify-content-center">
         <div className="col col-lg-8 text-left">

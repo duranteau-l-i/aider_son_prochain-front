@@ -3,20 +3,18 @@ import PropTypes from 'prop-types';
 
 import Input from 'components/Input';
 import Header from 'components/Header';
-import { serializeFormData } from 'utils';
 
 import contactBackgroundImage from 'assets/img/handshake.jpg';
 
 class Contact extends React.Component {
   componentDidMount() {
-    document.title = 'Contact - Aide ton prochain';
+    document.title = 'Contact - Aider son prochain';
   }
 
   submitContactForm = event => {
     const { submitContact } = this.props;
     event.preventDefault();
-    const jsonObject = serializeFormData(event.target);
-    submitContact(jsonObject);
+    submitContact(event.target);
   };
 
   render() {

@@ -18,13 +18,13 @@ const RegisterDropdown = () => {
         </a>
 
         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <Link exact to="/register/beneficiary" className="nav-link">
+          <Link to="/register/beneficiary" className="nav-link">
             Bénéficiaire
           </Link>
-          <Link exact to="/register/donor" className="nav-link">
+          <Link to="/register/donor" className="nav-link">
             Donateur
           </Link>
-          <Link exact to="/register/shopkeeper" className="nav-link">
+          <Link to="/register/shopkeeper" className="nav-link">
             Commerçant
           </Link>
         </div>

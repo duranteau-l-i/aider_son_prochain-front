@@ -98,14 +98,6 @@ const App = () => (
           return <Beneficiary />;
         }}
       />
-      {/* <Route
-        exact
-        key="/localisation"
-        path="/localisation"
-        render={() => {
-          return <Localisation />;
-        }}
-      /> */}
       <Route
         exact
         key="/payment"

@@ -93,9 +93,7 @@ const Register = props => {
   return (
     <>
       <Script
-        url={`https://maps.googleapis.com/maps/api/js?key=${
-          process.env.REACT_APP_GOOGLE_MAP_API
-        }&libraries=places`}
+        url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API}&libraries=places`}
         onLoad={onLoad}
       />
       {scriptLoaded && (
@@ -192,7 +190,6 @@ const Register = props => {
 
 Register.propTypes = {
   submitRegister: PropTypes.func.isRequired,
-  message: PropTypes.object,
 };
 
 export default withRouter(Register);

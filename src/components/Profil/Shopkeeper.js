@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Product from 'containers/Shopkeeper/Product';
 import OpeningHours from 'components/Shopkeeper/OpeningHours';
@@ -10,19 +11,8 @@ class Shopkeeper extends React.Component {
     getProducts(shopkeeperId);
   }
 
-  // clickDeleteProduct = evt => {
-  //   const confirmDelete = window.confirm('Voulez-vous vraiement supprimer ce produit ?');
-  //   if (confirmDelete) {
-  //     const { token, deleteProduct, getProducts } = this.props;
-  //     const productId = evt.target.dataset.id;
-  //     deleteProduct(token, productId);
-  //     const shopkeeperId = this.props.currentUser.user._id;
-  //     getProducts(shopkeeperId);
-  //   }
-  // };
-
   render() {
-    const { role, token } = this.props;
+    const { role } = this.props;
     const shop = this.props.currentUser.user;
 
     return (
@@ -54,9 +44,7 @@ class Shopkeeper extends React.Component {
                 <span>{shop.location.address}</span>
                 <br />
                 <a
-                  href={`https://maps.google.com/?q=${shop.location.latitude},${
-                    shop.location.longitude
-                  }`}
+                  href={`https://maps.google.com/?q=${shop.location.latitude},${shop.location.longitude}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -80,5 +68,13 @@ class Shopkeeper extends React.Component {
     );
   }
 }
+
+Shopkeeper.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  shop: PropTypes.object.isRequired,
+  products: PropTypes.array.isRequired,
+};
 
 export default Shopkeeper;

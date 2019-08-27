@@ -7,7 +7,7 @@ import { updateAvatar } from 'utils';
 
 import './profilUpdate.scss';
 
-const DonorProfilUpdate = ({ currentUser, updateProfile, role, token, showHideModal }) => {
+const DonorProfilUpdate = ({ currentUser, updateProfile, role, token }) => {
   const handleFile = e => {
     e.preventDefault();
     updateAvatar(e, role, token);
@@ -49,6 +49,7 @@ const DonorProfilUpdate = ({ currentUser, updateProfile, role, token, showHideMo
         <Input
           type="text"
           name="firstname"
+          id="firstname"
           placeholder={currentUser.user.firstname}
           className="form-control"
           label="Prénom"
@@ -56,6 +57,7 @@ const DonorProfilUpdate = ({ currentUser, updateProfile, role, token, showHideMo
         <Input
           type="text"
           name="lastname"
+          id="lastname"
           className="form-control"
           placeholder={currentUser.user.lastname}
           label="Nom"
@@ -64,6 +66,7 @@ const DonorProfilUpdate = ({ currentUser, updateProfile, role, token, showHideMo
         <Input
           type="password"
           name="password"
+          id="password"
           className="form-control"
           label="Votre mot de passe"
           placeholder="Nouveau mot de passe"
@@ -94,6 +97,9 @@ const DonorProfilUpdate = ({ currentUser, updateProfile, role, token, showHideMo
 
 DonorProfilUpdate.propTypes = {
   currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  updateProfile: PropTypes.func.isRequired,
 };
 
 export default withRouter(DonorProfilUpdate);

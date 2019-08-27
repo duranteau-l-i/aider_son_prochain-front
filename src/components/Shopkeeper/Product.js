@@ -1,4 +1,5 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import EmptyState from 'components/EmptyState';
 
@@ -99,5 +100,14 @@ class Product extends Component {
     );
   }
 }
+
+Product.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  products: PropTypes.array.isRequired,
+  getProducts: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
+};
 
 export default Product;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 import emptyStateImage from 'assets/img/emptyState.png';
@@ -17,5 +18,15 @@ const EmptyState = ({ message, link = '', className = '' }) => (
     </div>
   </>
 );
+
+EmptyState.propTypes = {
+  message: PropTypes.string.isRequired,
+  link: PropTypes.object.isRequired,
+  className: PropTypes.string.isRequired,
+};
+
+EmptyState.defaultProps = {
+  link: '',
+};
 
 export default EmptyState;

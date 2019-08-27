@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Beneficiary = ({ currentUser, role, publicProfile }) => {
   const beneficiary = currentUser.user;
@@ -39,9 +40,7 @@ const Beneficiary = ({ currentUser, role, publicProfile }) => {
               <span>{beneficiary.location.address}</span>
               <br />
               <a
-                href={`https://maps.google.com/?q=${beneficiary.location.latitude},${
-                  beneficiary.location.longitude
-                }`}
+                href={`https://maps.google.com/?q=${beneficiary.location.latitude},${beneficiary.location.longitude}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -75,6 +74,11 @@ const Beneficiary = ({ currentUser, role, publicProfile }) => {
       </div>
     </>
   );
+};
+
+Beneficiary.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
 };
 
 export default Beneficiary;

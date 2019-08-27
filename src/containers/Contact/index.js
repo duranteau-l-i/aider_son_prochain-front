@@ -4,9 +4,7 @@ import Contact from '../../components/Contact';
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({
-  submitContact: data => {},
-});
+const mapDispatchToProps = dispatch => ({});
 
 const ContactContainer = connect(
   mapStateToProps,

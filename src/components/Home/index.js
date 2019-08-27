@@ -10,7 +10,7 @@ import './home.scss';
 
 class Home extends React.Component {
   componentDidMount() {
-    document.title = 'Aide ton prochain - Dons et lien social avec les personnes isolées';
+    document.title = 'Aider son prochain - Dons et lien social avec les personnes isolées';
   }
   render() {
     return (

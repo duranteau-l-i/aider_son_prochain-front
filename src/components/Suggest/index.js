@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
 
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
@@ -18,7 +17,7 @@ class Suggest extends React.Component {
     this.state = {
       value: '',
       suggestions: [],
-      beneficiariesByName: [],
+      suggestByName: [],
     };
   }
 
@@ -30,7 +29,7 @@ class Suggest extends React.Component {
     return inputLength === 0
       ? []
       : this.state.suggestions.filter(
-          beneficiary => beneficiary.username.toLowerCase().slice(0, inputLength) === inputValue,
+          suggest => suggest.username.toLowerCase().slice(0, inputLength) === inputValue,
         );
   };
 
@@ -47,16 +46,14 @@ class Suggest extends React.Component {
   );
 
   onChange = (event, { newValue }) => {
+    const { role, token, who } = this.props;
     axios
-      .get(
-        `${process.env.REACT_APP_API_URL_DEV}/${this.props.role}/search-beneficiary/?q=${newValue}`,
-        {
-          headers: {
-            Authorization: `Bearer ${this.props.token}`,
-            'Content-Type': 'application/json',
-          },
+      .get(`${process.env.REACT_APP_API_URL_DEV}/${role}/search-${who}/?q=${newValue}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-      )
+      })
       .then(response => {
         this.setState({
           suggestions: response.data.result,
@@ -83,7 +80,7 @@ class Suggest extends React.Component {
     this.setState({
       suggestions: [],
     });
-    this.props.searchBeneficiaryClear(this.state.value);
+    this.props.searchSuggestClear(this.state.value);
   };
 
   onSuggestionSelected = (
@@ -94,19 +91,20 @@ class Suggest extends React.Component {
     // console.log(suggestion, suggestionValue, suggestionIndex, sectionIndex, method);
     this.setState({
       suggestions: [],
-      beneficiariesByName: [],
+      suggestByName: [],
     });
-    this.props.handleBeneficiarySelect(suggestion);
+    this.props.handleSuggestSelect(suggestion);
   };
 
   render() {
     const { value, suggestions } = this.state;
+    const { searchSuggestBlur } = this.props;
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
       placeholder: 'Entrez un nom',
       value,
       onChange: this.onChange,
-      onBlur: this.props.searchBeneficiaryBlur,
+      onBlur: searchSuggestBlur,
     };
 
     // Finally, render it!

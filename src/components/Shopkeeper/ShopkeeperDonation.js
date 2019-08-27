@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 import Header from 'components/Header';
 import EmptyState from 'components/EmptyState';
@@ -16,9 +16,9 @@ class ShopkeeperDonation extends Component {
     total: 0,
     beneficiary: '',
     donation: {
-      shopkeeper: this.props.match.params.id,
+      shopkeeper: '',
       beneficiary: '',
-      donor: this.props.currentUser.user._id,
+      donor: '',
       products: [],
     },
     donationIsReady: false,
@@ -28,24 +28,33 @@ class ShopkeeperDonation extends Component {
   };
 
   componentDidMount() {
-    const { token, role, getShop, getProducts } = this.props;
+    const { token, role, currentUser, getShop, getProducts } = this.props;
     const shopkeeperId = this.props.match.params.id;
+
+    this.setState(state => ({
+      donation: {
+        ...state.donation,
+        shopkeeper: shopkeeperId,
+        donor: currentUser.user._id,
+      },
+    }));
+
     getShop(role, token, shopkeeperId);
     getProducts(shopkeeperId);
   }
 
   // suggest component
-  handleBeneficiarySelect = select => {
+  handleSuggestSelect = select => {
     this.setState({
       suggest: { id: select._id, name: select.username },
       beneficiary: '',
     });
   };
 
-  searchBeneficiaryClear = value => {
-    console.log(value);
+  searchSuggestClear = value => {
+    const { name } = this.state.suggest;
     if (value !== '') {
-      if (this.state.suggest.name !== '' && this.state.suggest.name !== value) {
+      if (name !== '' && name !== value) {
         this.setState(state => ({
           suggest: { id: '', name: '' },
           beneficiary: value,
@@ -68,13 +77,14 @@ class ShopkeeperDonation extends Component {
   // form
   handleChange = e => {
     const { checked, value, id } = e.target;
+    const { donation } = this.state;
     if (checked) {
       this.setState(state => ({
         total: state.total + Number(value),
         donation: { ...state.donation, products: [...state.donation.products, id] },
       }));
     } else {
-      let newProducts = this.state.donation.products.filter(el => el !== id);
+      let newProducts = donation.products.filter(el => el !== id);
       this.setState(state => ({
         total: state.total - Number(value),
         donation: { ...state.donation, products: newProducts },
@@ -104,27 +114,29 @@ class ShopkeeperDonation extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    let beneficiary = '';
+    const { suggest, beneficiary, donation } = this.state;
 
-    if (this.state.suggest.id !== '') {
-      beneficiary = this.state.suggest.id;
+    let beneficiaryRef = '';
+
+    if (suggest.id !== '') {
+      beneficiaryRef = suggest.id;
     } else {
-      beneficiary = this.state.beneficiary;
+      beneficiaryRef = beneficiary;
     }
 
     const data = {
-      beneficiary: beneficiary,
-      beneficiaryUsername: this.state.beneficiary,
-      shopkeeper: this.state.donation.shopkeeper,
-      donor: this.state.donation.donor,
-      products: this.state.donation.products,
+      beneficiary: beneficiaryRef,
+      beneficiaryUsername: beneficiary,
+      shopkeeper: donation.shopkeeper,
+      donor: donation.donor,
+      products: donation.products,
     };
 
     if (
-      beneficiary !== '' &&
-      this.state.donation.shopkeeper !== '' &&
-      this.state.donation.donor !== '' &&
-      this.state.donation.products.length > 0
+      beneficiaryRef !== '' &&
+      donation.shopkeeper !== '' &&
+      donation.donor !== '' &&
+      donation.products.length > 0
     ) {
       const { role, token, sendDonation } = this.props;
       sendDonation(role, token, data);
@@ -132,6 +144,7 @@ class ShopkeeperDonation extends Component {
   };
 
   render() {
+    const { total, beneficiary, donation } = this.state;
     const { shop, products, role } = this.props;
     document.title = `${shop.shopkeeper_name} - Aide ton prochain`;
     return (
@@ -207,7 +220,7 @@ class ShopkeeperDonation extends Component {
                             <tfoot>
                               <tr>
                                 <th scope="row">Total</th>
-                                <td>{this.state.total} €</td>
+                                <td>{total} €</td>
                                 <td />
                               </tr>
                             </tfoot>
@@ -229,9 +242,10 @@ class ShopkeeperDonation extends Component {
                                       <Suggest
                                         role={this.props.role}
                                         token={this.props.token}
-                                        handleBeneficiarySelect={this.handleBeneficiarySelect}
-                                        searchBeneficiaryBlur={this.searchBeneficiaryBlur}
-                                        searchBeneficiaryClear={this.searchBeneficiaryClear}
+                                        who="beneficiary"
+                                        handleSuggestSelect={this.handleSuggestSelect}
+                                        searchSuggestBlur={this.searchSuggestBlur}
+                                        searchSuggestClear={this.searchSuggestClear}
                                         list={true}
                                       />
                                     </div>
@@ -240,8 +254,7 @@ class ShopkeeperDonation extends Component {
                               </div>
                             </div>
 
-                            {this.state.beneficiary !== '' &&
-                            this.state.donation.products.length > 0 ? (
+                            {beneficiary !== '' && donation.products.length > 0 ? (
                               <input
                                 type="submit"
                                 className="btn btn-custom-accent ml-auto btn-lg"
@@ -283,9 +296,7 @@ class ShopkeeperDonation extends Component {
                       <span>{shop.location.address}</span>
                       <br />
                       <a
-                        href={`https://maps.google.com/?q=${shop.location.latitude},${
-                          shop.location.longitude
-                        }`}
+                        href={`https://maps.google.com/?q=${shop.location.latitude},${shop.location.longitude}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -312,5 +323,16 @@ class ShopkeeperDonation extends Component {
     );
   }
 }
+
+ShopkeeperDonation.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  shop: PropTypes.object.isRequired,
+  products: PropTypes.array.isRequired,
+  getShop: PropTypes.func.isRequired,
+  getProducts: PropTypes.func.isRequired,
+  sendDonation: PropTypes.func.isRequired,
+};
 
 export default withRouter(ShopkeeperDonation);

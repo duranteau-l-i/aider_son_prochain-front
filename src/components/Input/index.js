@@ -63,6 +63,18 @@ Input.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
+  parentClassName: PropTypes.string,
+  minLength: PropTypes.number,
+  pattern: PropTypes.string,
+};
+
+Input.defaultProps = {
+  required: false,
 };
 
 export default Input;

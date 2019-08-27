@@ -4,18 +4,16 @@ import { withRouter } from 'react-router-dom';
 
 import Donor from './Donor';
 import Beneficiary from './Beneficiary';
-import Shopkeeper from 'containers/Profil/shopkeeperDetails';
+import Shopkeeper from 'containers/Profil/shopkeeper';
 import Error403 from 'components/Error403';
 import ProfilHeader from 'components/Profil/ProfilHeader';
 import Nav from 'containers/Nav';
 
 import './profil.scss';
 
-const Profil = ({ currentUser, role, modalShow }) => {
+const Profil = ({ currentUser, role }) => {
   useEffect(() => {
-    document.title = `Mon profil - Aide ton prochain`;
-    modalShow(false, false);
-    return function cleanup() {};
+    document.title = `Mon profil - Aider son prochain`;
   });
 
   if (currentUser.user !== undefined) {

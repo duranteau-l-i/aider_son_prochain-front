@@ -5,23 +5,30 @@ export const getDonationData = donation => {
   }, 0);
 
   // display the ref (5 first chars)
-  const donationDisplayRef = '#' + donation._id.substr(donation._id.length - 6).toUpperCase();
+  const donationDisplayRef = '#' + donation._id.substring(donation._id.length - 6).toUpperCase();
 
   // change date format
-  const date = new Date(donation.created_at);
-  const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-  const month =
-    parseInt(date.getMonth() + 1) < 10
-      ? '0' + parseInt(date.getMonth() + 1)
-      : parseInt(date.getMonth() + 1);
-  const donationDate = day + '/' + month + '/' + date.getFullYear();
+  const dateFormat = d => {
+    const date = new Date(d);
+    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    const month =
+      parseInt(date.getMonth() + 1) < 10
+        ? '0' + parseInt(date.getMonth() + 1)
+        : parseInt(date.getMonth() + 1);
+    return day + '/' + month + '/' + date.getFullYear();
+  };
 
-  const used = donation.used_at !== undefined;
+  const donationDate = dateFormat(donation.created_at);
+  let donationUsed;
+
+  if (donation.used_at) {
+    donationUsed = dateFormat(donation.used_at);
+  }
 
   return {
-    used,
     sumOfProducts,
     donationDate,
+    donationUsed,
     donationDisplayRef,
   };
 };

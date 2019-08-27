@@ -122,7 +122,7 @@ EditProduct.propTypes = {
   currentUser: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
-  productEditedConfirmMessage: PropTypes.func.isRequired,
+  submitEditProductForm: PropTypes.func.isRequired,
 };
 
 export default withRouter(EditProduct);

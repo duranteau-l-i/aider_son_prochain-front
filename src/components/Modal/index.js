@@ -1,15 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import './modal.scss';
 
 const Modal = ({ success, error, modalShow, title, message, messageError, page }) => {
-  // useEffect(() => {
-  //   return function cleanup() {
-  //     modalShow(false, false);
-  //   };
-  // });
-
   const onHide = () => {
     modalShow(false, false);
   };
@@ -88,11 +83,6 @@ const Modal = ({ success, error, modalShow, title, message, messageError, page }
               >
                 Fermer
               </button>
-              {/* <Link to={`/${page}`} exact path={`/${page}`}>
-                <button type="button" className="btn btn-danger">
-                  Retour {page}
-                </button>
-              </Link> */}
             </div>
           </div>
         </div>
@@ -101,6 +91,16 @@ const Modal = ({ success, error, modalShow, title, message, messageError, page }
   } else {
     return '';
   }
+};
+
+Modal.propTypes = {
+  success: PropTypes.bool.isRequired,
+  error: PropTypes.bool.isRequired,
+  modalShow: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  messageError: PropTypes.string.isRequired,
+  page: PropTypes.string.isRequired,
 };
 
 export default Modal;

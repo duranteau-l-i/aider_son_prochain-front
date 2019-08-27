@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Donor = ({ currentUser }) => {
   const user = currentUser.user;
@@ -40,6 +41,11 @@ const Donor = ({ currentUser }) => {
       </div>
     </>
   );
+};
+
+Donor.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
 };
 
 export default Donor;

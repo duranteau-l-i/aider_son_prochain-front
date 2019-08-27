@@ -7,7 +7,6 @@ export const RECIEVE_CURRENT_USER = 'RECIEVE_CURRENT_USER';
 const user = (state = initialState, action = {}) => {
   switch (action.type) {
     case RECIEVE_CURRENT_USER:
-      console.log(action.data);
       return {
         ...state,
         currentUser: action.data,

@@ -14,14 +14,6 @@ const BeneficiaryProfilUpdate = ({ currentUser, updateProfile, role, token }) =>
   const [location, setLocation] = useState({});
   const [description, setDescritpion] = useState('');
 
-  // useEffect(() => {
-  //   if (currentUser.user.description === '') {
-  //     setDescritpion('  Description non renseignée');
-  //   } else if (currentUser.user.description !== '') {
-  //     setDescritpion(`  ${currentUser.user.description}`);
-  //   }
-  // }, [description, currentUser.user.description]);
-
   const onLoad = () => {
     if (!scriptLoaded) {
       setScriptLoaded(true);
@@ -80,9 +72,7 @@ const BeneficiaryProfilUpdate = ({ currentUser, updateProfile, role, token }) =>
   return (
     <>
       <Script
-        url={`https://maps.googleapis.com/maps/api/js?key=${
-          process.env.REACT_APP_GOOGLE_MAP_API
-        }&libraries=places`}
+        url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API}&libraries=places`}
         onLoad={onLoad}
       />
 
@@ -109,6 +99,7 @@ const BeneficiaryProfilUpdate = ({ currentUser, updateProfile, role, token }) =>
           <Input
             type="text"
             name="firstname"
+            id="firstname"
             placeholder={currentUser.user.firstname ? currentUser.user.firstname : 'non renseigné'}
             className="form-control"
             label="Prénom"
@@ -116,6 +107,7 @@ const BeneficiaryProfilUpdate = ({ currentUser, updateProfile, role, token }) =>
           <Input
             type="text"
             name="lastname"
+            id="lastname"
             className="form-control"
             placeholder={currentUser.user.lastname ? currentUser.user.lastname : 'non renseigné'}
             label="Nom"
@@ -124,6 +116,7 @@ const BeneficiaryProfilUpdate = ({ currentUser, updateProfile, role, token }) =>
           <Input
             type="password"
             name="password"
+            id="password"
             className="form-control"
             label="Nouveau mot de passe"
             placeholder="Nouveau mot de passe"
@@ -176,6 +169,7 @@ const BeneficiaryProfilUpdate = ({ currentUser, updateProfile, role, token }) =>
                 currentUser.user.description.trim() !== '' ? 'form-control w-50' : 'form-control'
               }
               name="description"
+              id="description"
               rows="5"
               value={description}
               onChange={handleDescription}
@@ -215,6 +209,9 @@ const BeneficiaryProfilUpdate = ({ currentUser, updateProfile, role, token }) =>
 
 BeneficiaryProfilUpdate.propTypes = {
   currentUser: PropTypes.object.isRequired,
+  role: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  updateProfile: PropTypes.func.isRequired,
 };
 
 export default withRouter(BeneficiaryProfilUpdate);

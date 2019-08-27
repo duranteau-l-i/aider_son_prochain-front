@@ -12,15 +12,7 @@ import Modal from 'containers/Modal';
 import './profilUpdate.scss';
 import '../Profil/profil.scss';
 
-const ProfilUpdate = ({
-  currentUser,
-  role,
-  updateProfile,
-  updateAvatar,
-  token,
-  show,
-  showHideModal,
-}) => {
+const ProfilUpdate = ({ currentUser, role, updateProfile, token }) => {
   document.title = `Editer mon profil - Aide ton prochain`;
   if (currentUser.user !== undefined) {
     return (
@@ -37,7 +29,6 @@ const ProfilUpdate = ({
                       currentUser={currentUser}
                       role={role}
                       updateProfile={updateProfile}
-                      updateAvatar={updateAvatar}
                       token={token}
                     />
                   )}
@@ -46,7 +37,6 @@ const ProfilUpdate = ({
                       currentUser={currentUser}
                       role={role}
                       updateProfile={updateProfile}
-                      updateAvatar={updateAvatar}
                       token={token}
                     />
                   )}
@@ -55,9 +45,7 @@ const ProfilUpdate = ({
                       currentUser={currentUser}
                       role={role}
                       updateProfile={updateProfile}
-                      updateAvatar={updateAvatar}
                       token={token}
-                      showHideModal={showHideModal}
                     />
                   )}
                 </div>
@@ -83,6 +71,8 @@ const ProfilUpdate = ({
 ProfilUpdate.propTypes = {
   currentUser: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  updateProfile: PropTypes.func.isRequired,
 };
 
 export default ProfilUpdate;

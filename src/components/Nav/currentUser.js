@@ -56,7 +56,7 @@ const CurrentUser = ({ currentUser, role, deconnexion }) => {
             <Link exact to="/profil" className="nav-link">
               Mon&nbsp;profil
             </Link>
-            <Link exact to="/" className="nav-link text-danger" onClick={onDeconnexion}>
+            <Link exact to="/login" className="nav-link text-danger" onClick={onDeconnexion}>
               Déconnexion
             </Link>
           </div>

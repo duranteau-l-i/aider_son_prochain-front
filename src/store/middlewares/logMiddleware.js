@@ -33,6 +33,7 @@ const logMiddleware = store => next => action => {
         })
         .catch(e => {
           console.log(e.message);
+          store.dispatch(recieveCurrentUser({}));
           store.dispatch(modalShow(false, true));
         });
 

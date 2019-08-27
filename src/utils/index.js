@@ -1,13 +1,5 @@
 import jwt from 'jsonwebtoken';
-import * as geolib from 'geolib';
 import axios from 'axios';
-import * as serialize from 'form-serialize';
-
-import { deconnexion } from 'store/actionMiddleware';
-
-export const serializeFormData = form => {
-  return serialize(form, { hash: true });
-};
 
 export const decodedToken = token => {
   let id = 'null';
@@ -16,7 +8,7 @@ export const decodedToken = token => {
     return { id, role };
   }
 
-  jwt.verify(token, 'aidetonprochain', (err, decoded) => {
+  jwt.verify(token, process.env.REACT_APP_JWT_SECRET, (err, decoded) => {
     if (err) {
       if (err.message) {
         console.log(err.message);
@@ -47,7 +39,8 @@ export const updateAvatar = (event, role, token) => {
         },
       })
       .then(response => {
-        const data = { user: { ...response.data.user }, token: token };
+        console.log(response.data);
+        // const data = { user: { ...response.data.user }, token: token };
       })
       .catch(e => {
         console.log("Impossible d'enregistrer l'image", e);

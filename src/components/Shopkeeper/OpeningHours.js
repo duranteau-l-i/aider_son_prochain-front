@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const OpeningHours = ({ shop }) => {
   const date = new Date();
@@ -189,6 +190,10 @@ const OpeningHours = ({ shop }) => {
       </tbody>
     </table>
   );
+};
+
+OpeningHours.propTypes = {
+  shop: PropTypes.object.isRequired,
 };
 
 export default OpeningHours;
