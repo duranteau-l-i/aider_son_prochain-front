@@ -96,7 +96,7 @@ class EditProduct extends React.Component {
                   />
                 </div>
                 <div className="mt-5 text-right">
-                  <Link to="/profil" exact path="/profil" className="btn btn-outline-secondary">
+                  <Link to="/profil" path="/profil" className="btn btn-outline-secondary">
                     Retour au profil
                   </Link>
                   <button type="submit" className="btn btn-primary ml-4">

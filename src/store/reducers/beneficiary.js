@@ -10,18 +10,15 @@ const beneficiary = (state = initialState, action = {}) => {
       return {
         ...state,
         beneficiary: action.data.beneficiary,
-        location: action.location,
       };
     default:
       return state;
   }
 };
 
-
 export const recieveBeneficiary = data => ({
   type: RECIEVE_BENEFICIARY,
   data,
 });
-
 
 export default beneficiary;

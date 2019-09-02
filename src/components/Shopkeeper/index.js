@@ -15,8 +15,6 @@ import EmptyState from 'components/EmptyState';
 import Suggest from 'components/Suggest';
 import Error403 from 'components/Error403';
 
-/* medias */
-import shopKeepersBackgroundImage from 'assets/img/background-shopkeepers.jpg';
 import defaultAvatar from 'assets/img/default-avatar.png';
 
 class Shopkeeper extends React.Component {
@@ -176,11 +174,7 @@ class Shopkeeper extends React.Component {
             url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API}&libraries=places`}
             onLoad={this.onLoad}
           />
-          <Header
-            title="Commerces à proximité"
-            backgroundImage={shopKeepersBackgroundImage}
-            theme="dark"
-          />
+          <Header title="Commerces à proximité" theme="dark" />
           {isGeoLocAccessible && location.latitude === 0 && (
             <EmptyState
               className="mt-5"
@@ -190,7 +184,7 @@ class Shopkeeper extends React.Component {
 
           {!isGeoLocAccessible && scriptLoaded && (
             <>
-              <div className="container py-5 shopkeeper-list">
+              <div className="container mb-5 shopkeeper-list">
                 <div className="row">
                   <div className="col">
                     <p>

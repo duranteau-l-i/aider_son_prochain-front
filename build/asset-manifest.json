@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a86aba58.chunk.css",
+    "main.js": "/static/js/main.13a9af91.chunk.js",
+    "main.js.map": "/static/js/main.13a9af91.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/css/2.266e55a5.chunk.css": "/static/css/2.266e55a5.chunk.css",
+    "static/js/2.653bda67.chunk.js": "/static/js/2.653bda67.chunk.js",
+    "static/js/2.653bda67.chunk.js.map": "/static/js/2.653bda67.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.dc2a023bbc4085f7d35244966e1a62e5.js": "/precache-manifest.dc2a023bbc4085f7d35244966e1a62e5.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.266e55a5.chunk.css.map": "/static/css/2.266e55a5.chunk.css.map",
+    "static/css/main.a86aba58.chunk.css.map": "/static/css/main.a86aba58.chunk.css.map",
+    "static/media/home.scss": "/static/media/homeless.ebc4a857.jpg",
+    "static/media/default-avatar.png": "/static/media/default-avatar.08c2dd37.png",
+    "static/media/header.scss": "/static/media/header-background-blue.7fad8165.jpg",
+    "static/media/illustration-qsn.jpg": "/static/media/illustration-qsn.c5e96300.jpg",
+    "static/media/mockup-donation.png": "/static/media/mockup-donation.9cb5bf1f.png"
+  }
+}

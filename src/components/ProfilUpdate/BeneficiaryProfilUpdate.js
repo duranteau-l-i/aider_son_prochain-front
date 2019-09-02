@@ -123,7 +123,7 @@ const BeneficiaryProfilUpdate = ({ currentUser, updateProfile, role, token }) =>
           />
           <h2 className="mt-5">Mes informations de bénéficiaire</h2>
           <div className="form-group">
-            <label htmlFor="">Adresse de votre commerce</label>
+            <label htmlFor="">Votre lieux habituel</label>
             <PlacesAutocomplete value={address} onChange={handleChange} onSelect={handleSelect}>
               {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                 <div>
@@ -194,7 +194,7 @@ const BeneficiaryProfilUpdate = ({ currentUser, updateProfile, role, token }) =>
             />
           </div>
           <div className="text-right mt-5">
-            <Link to="/profil" exact path="/profil" className="btn btn-outline-secondary">
+            <Link to="/profil" path="/profil" className="btn btn-outline-secondary">
               Retour au profil
             </Link>
             <button type="submit" className="btn btn-primary ml-4">

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Header from 'components/Header';
 import EmptyState from 'components/EmptyState';
 import './donations.scss';
-import backgroundDonations from 'assets/img/donations.jpg';
 import Error403 from 'components/Error403';
 import DonationBody from './DonationBody';
 
@@ -58,8 +57,8 @@ class Donations extends React.Component {
     if (currentUser.user !== undefined) {
       return (
         <>
-          <Header title={title} theme="dark" backgroundImage={backgroundDonations} />
-          <div className="container mt-4 py-5">
+          <Header title={title} theme="dark" />
+          <div className="container">
             <div className="row justify-content-center">
               <div className="col col-md-8">
                 {used.length <= 0 && notUsed.length <= 0 && (
@@ -87,7 +86,13 @@ class Donations extends React.Component {
                 )}
                 {notUsed.length > 0 &&
                   notUsed.map(donation => (
-                    <DonationBody used={false} donation={donation} role={role} />
+                    <DonationBody
+                      used={false}
+                      donation={donation}
+                      role={role}
+                      handleValidateTransaction={this.handleValidateTransaction}
+                      key={donation._id}
+                    />
                   ))}
               </div>
             </div>
@@ -95,7 +100,7 @@ class Donations extends React.Component {
               <div className="col col-md-8">
                 {used.length > 0 &&
                   used.map(donation => (
-                    <DonationBody used={true} donation={donation} role={role} />
+                    <DonationBody used={true} donation={donation} role={role} key={donation._id} />
                   ))}
               </div>
             </div>

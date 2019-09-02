@@ -83,7 +83,7 @@ const DonorProfilUpdate = ({ currentUser, updateProfile, role, token }) => {
           />
         </div>
         <div className="text-right mt-5">
-          <Link to="/profil" exact path="/profil" className="btn btn-outline-secondary">
+          <Link to="/profil" path="/profil" className="btn btn-outline-secondary">
             Retour au profil
           </Link>
           <button type="submit" className="btn btn-primary ml-4">

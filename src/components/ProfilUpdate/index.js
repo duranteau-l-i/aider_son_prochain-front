@@ -13,7 +13,7 @@ import './profilUpdate.scss';
 import '../Profil/profil.scss';
 
 const ProfilUpdate = ({ currentUser, role, updateProfile, token }) => {
-  document.title = `Editer mon profil - Aide ton prochain`;
+  document.title = `Editer mon profil - Aider son prochain`;
   if (currentUser.user !== undefined) {
     return (
       <>
@@ -23,7 +23,7 @@ const ProfilUpdate = ({ currentUser, role, updateProfile, token }) => {
             <div className="col bg-white py-md-medium">
               <div className="row">
                 <div className="col px-md-large">
-                  <ProfilHeader role={role} user={currentUser} update={true} />
+                  <ProfilHeader role={role} user={currentUser.user} update={true} />
                   {role === 'beneficiary' && (
                     <BeneficiaryProfilUpdate
                       currentUser={currentUser}

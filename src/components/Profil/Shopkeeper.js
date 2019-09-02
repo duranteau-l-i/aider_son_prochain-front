@@ -74,7 +74,7 @@ Shopkeeper.propTypes = {
   role: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
   shop: PropTypes.object.isRequired,
-  products: PropTypes.array.isRequired,
+  products: PropTypes.array,
 };
 
 export default Shopkeeper;

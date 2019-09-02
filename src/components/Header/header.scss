@@ -17,11 +17,6 @@ header {
 }
 
 .page-header {
-  position: relative;
-  min-height: 200px;
-  overflow: hidden;
-  background-color: $color4;
-
   h1 {
     text-shadow: 3px 3px 1px rgba(0, 0, 0, 0.2);
     small {
@@ -30,18 +25,11 @@ header {
       text-transform: none;
     }
   }
+}
 
-  .background-image {
-    // background-color: darken($accent-color, 20%);
-    // // filter: chrome($accent-color);
-    // background-blend-mode: multiply;
-    // content: '';
-    // opacity: 0.5;
-    // top: 0;
-    // left: 0;
-    // bottom: 0;
-    // right: 0;
-    // position: absolute;
-    // z-index: -1;
-  }
+.header-bg {
+  background: url('../../assets/img/handshake.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 3em 0;
 }

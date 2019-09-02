@@ -11,8 +11,6 @@ import Error403 from 'components/Error403';
 import './beneficiary.scss';
 import '../Profil/profil.scss';
 
-import beneficiaryBackgroundImage from 'assets/img/background-beneficiary.jpg';
-
 class BeneficiaryDetails extends Component {
   componentDidMount() {
     const { token, role, getBeneficiary } = this.props;
@@ -21,19 +19,12 @@ class BeneficiaryDetails extends Component {
   }
 
   render() {
-    const { beneficiary, role } = this.props;
-    document.title = `${beneficiary.username} - Aide ton prochain`;
-    const currentUser = {
-      user: beneficiary,
-    };
-    if (currentUser.User !== undefined) {
+    const { currentUser, beneficiary, role } = this.props;
+    document.title = `${beneficiary.username} - Aider son prochain`;
+    if (currentUser.user !== undefined) {
       return (
         <>
-          <Header
-            title={beneficiary.username}
-            backgroundImage={beneficiaryBackgroundImage}
-            theme="dark"
-          />
+          <Header title={beneficiary.username} theme="dark" />
 
           <div className="container mt-5 edit-profile-container profile-view-container">
             <div className="row">
@@ -41,13 +32,13 @@ class BeneficiaryDetails extends Component {
                 <div className="row">
                   <div className="col px-md-large">
                     <ProfilHeader
-                      title={`${currentUser.user.username} (${role})`}
-                      user={currentUser}
+                      title={`${beneficiary.username} (${role})`}
+                      user={beneficiary}
                       // eslint-disable-next-line jsx-a11y/aria-role
                       role="beneficiary"
                       publicProfile={true}
                     />
-                    <Beneficiary currentUser={currentUser} role={role} publicProfile={true} />
+                    <Beneficiary beneficiary={beneficiary} role={role} publicProfile={true} />
                   </div>
                 </div>
               </div>
@@ -64,7 +55,6 @@ class BeneficiaryDetails extends Component {
 }
 
 BeneficiaryDetails.propTypes = {
-  currentUser: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
   beneficiary: PropTypes.object.isRequired,

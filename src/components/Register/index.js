@@ -11,7 +11,6 @@ import RegisterBeneficiary from './beneficiaryInputs';
 import Modal from 'containers/Modal';
 
 import './register.scss';
-import registerBackgroundImage from 'assets/img/welcome.jpg';
 
 const Register = props => {
   const { submitRegister } = props;
@@ -30,7 +29,7 @@ const Register = props => {
   const [location, setLocation] = useState({});
 
   useEffect(() => {
-    document.title = `Inscription ${roleTitle} - Aide ton prochain`;
+    document.title = `Inscription ${roleTitle} - Aider son prochain`;
   });
 
   const onLoad = () => {
@@ -102,7 +101,7 @@ const Register = props => {
             title="Bienvenue !"
             subtitle={`Inscription ${roleTitle}`}
             theme="dark"
-            backgroundImage={registerBackgroundImage}
+            page="register"
           />
 
           <div className="container register">

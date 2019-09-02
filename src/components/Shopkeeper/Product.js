@@ -92,7 +92,7 @@ class Product extends Component {
         {!products && <EmptyState message="Vous n'avez pas encore ajouté de produit." />}
 
         <div className="text-center mb-5">
-          <Link exact to="/add-product" path="/add-product" className="btn btn-outline-primary">
+          <Link to="/add-product" path="/add-product" className="btn btn-outline-primary">
             Ajouter un produit
           </Link>
         </div>
@@ -105,7 +105,7 @@ Product.propTypes = {
   currentUser: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
-  products: PropTypes.array.isRequired,
+  products: PropTypes.array,
   getProducts: PropTypes.func.isRequired,
   deleteProduct: PropTypes.func.isRequired,
 };

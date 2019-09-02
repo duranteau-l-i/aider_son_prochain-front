@@ -9,7 +9,6 @@ import Modal from 'containers/Modal';
 
 import OpeningHours from './OpeningHours';
 import './shopkeeper.scss';
-import shopKeeperBackgroundImage from 'assets/img/background-shopkeepers.jpg';
 
 class ShopkeeperDonation extends Component {
   state = {
@@ -146,14 +145,10 @@ class ShopkeeperDonation extends Component {
   render() {
     const { total, beneficiary, donation } = this.state;
     const { shop, products, role } = this.props;
-    document.title = `${shop.shopkeeper_name} - Aide ton prochain`;
+    document.title = `${shop.shopkeeper_name} - Aider son prochain`;
     return (
       <>
-        <Header
-          title={shop.shopkeeper_name}
-          backgroundImage={shopKeeperBackgroundImage}
-          theme="dark"
-        />
+        <Header title={shop.shopkeeper_name} theme="dark" />
 
         <div className="container mt-4 py-5">
           <div className="row justify-content-center">
@@ -287,7 +282,7 @@ class ShopkeeperDonation extends Component {
               )}
             </div>
             <div className="col-md-12 col-lg-4">
-              {shop.localisation && (
+              {shop.location && (
                 <div className="card">
                   <div className="card-body">
                     <p className="text-small">

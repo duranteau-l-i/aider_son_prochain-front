@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import { getDonationData } from 'utils/donationUtils';
 
-const DonationBody = ({ donation, role, used }) => {
+const DonationBody = ({ donation, role, used, handleValidateTransaction }) => {
   return (
-    <div className="card mb-4 donation" key={donation._id}>
+    <div className="card mb-4 donation">
       <div
         data-toggle="collapse"
         data-target={`#collapseDonation-${donation._id}`}
@@ -55,7 +55,7 @@ const DonationBody = ({ donation, role, used }) => {
                   </span>{' '}
                   à{' '}
                   <span className="text-dark font-weight-bold text-capitalize">
-                    {donation.beneficiary.username}
+                    {donation.beneficiaryUsername}
                   </span>
                 </>
               )}
@@ -105,7 +105,7 @@ const DonationBody = ({ donation, role, used }) => {
               {role === 'shopkeeper' && (
                 <button
                   id={donation._id}
-                  onClick={this.handleValidateTransaction}
+                  onClick={handleValidateTransaction}
                   className="btn btn-primary mb-3 text-white"
                 >
                   Valider la transaction

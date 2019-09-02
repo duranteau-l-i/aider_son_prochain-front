@@ -22,9 +22,6 @@ import defaultAvatar from 'assets/img/default-avatar.png';
 /* Css */
 import './beneficiary.scss';
 
-/* medias */
-import shopKeepersBackgroundImage from 'assets/img/background-shopkeepers.jpg';
-
 class Beneficiary extends React.Component {
   state = {
     location: {
@@ -183,11 +180,7 @@ class Beneficiary extends React.Component {
             url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API}&libraries=places`}
             onLoad={this.onLoad}
           />
-          <Header
-            title="Bénéficiaires à proximité"
-            backgroundImage={shopKeepersBackgroundImage}
-            theme="dark"
-          />
+          <Header title="Bénéficiaires à proximité" theme="dark" />
           {isGeoLocAccessible && location.latitude === 0 && (
             <EmptyState
               className="mt-5"
@@ -197,7 +190,7 @@ class Beneficiary extends React.Component {
 
           {!isGeoLocAccessible && scriptLoaded && (
             <>
-              <div className="container mt-5 beneficiary-list">
+              <div className="container beneficiary-list">
                 <div className="row">
                   <div className="col">
                     <p>
@@ -425,7 +418,6 @@ class Beneficiary extends React.Component {
 }
 
 Beneficiary.propTypes = {
-  currentUser: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired,
 };

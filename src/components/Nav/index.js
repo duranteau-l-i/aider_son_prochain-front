@@ -2,17 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, Link, withRouter } from 'react-router-dom';
 
-import CurrentUser from './currentUser';
+import Currentuser from './currentuser';
 import RegisterDropdown from './RegisterDropdown';
 
 import './nav.scss';
-import logo from '../../assets/img/logo-atp-blanc.png';
+import logo from '../../assets/img/logo.png';
 
-const Nav = ({ currentUser, role, theme, deconnexion, match }) => {
+const Nav = ({ currentUser, role, deconnexion, match }) => {
   return (
-    <nav className={`navbar navbar-expand-lg navbar-${theme}`}>
+    <nav className={`navbar navbar-expand-lg navbar-dark`}>
       <Link key="/logo" className="navbar-brand" to="/">
-        <img src={logo} alt="logo-atp" />
+        <img src={logo} alt="logo-atp" />{' '}
+        <span className="font-weight-bold">AIDER SON PROCHAIN</span>
       </Link>
       <button
         className="navbar-toggler"
@@ -28,32 +29,12 @@ const Nav = ({ currentUser, role, theme, deconnexion, match }) => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <NavLink exact to="/" key="/" className="nav-link" activeClassName="active">
+            <NavLink to="/" key="/" className="nav-link" activeClassName="active">
               Accueil
             </NavLink>
           </li>
-          {/* {match.path === '/' && (
-            <li className="nav-item">
-              <a className="nav-link" href="#qui-sommes-nous">
-                Qui sommes-nous
-              </a>
-            </li>
-          )}
-          {match.path === '/' && (
-            <li className="nav-item">
-              <a className="nav-link" href="#comment-ca-marche">
-                Comment ça marche
-              </a>
-            </li>
-          )} */}
           <li className="nav-item">
-            <NavLink
-              exact
-              to="/contact"
-              key="/contact"
-              className="nav-link"
-              activeClassName="active"
-            >
+            <NavLink to="/contact" key="/contact" className="nav-link" activeClassName="active">
               Contact
             </NavLink>
           </li>
@@ -63,14 +44,14 @@ const Nav = ({ currentUser, role, theme, deconnexion, match }) => {
             <>
               <RegisterDropdown />
               <li className="nav-item">
-                <NavLink exact to="/login" key="/login" className="nav-link">
+                <NavLink to="/login" key="/login" className="nav-link">
                   Connexion
                 </NavLink>
               </li>
             </>
           )}
           {currentUser.user !== undefined && (
-            <CurrentUser currentUser={currentUser} role={role} deconnexion={deconnexion} />
+            <Currentuser currentUser={currentUser} role={role} deconnexion={deconnexion} />
           )}
         </ul>
       </div>

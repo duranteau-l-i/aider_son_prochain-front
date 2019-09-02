@@ -41,8 +41,8 @@ const Modal = ({ success, error, modalShow, title, message, messageError, page }
               >
                 Fermer
               </button>
-              <Link to={`/${page}`} exact path={`/${page}`}>
-                <button type="button" className="btn btn-primary">
+              <Link to={`/${page}`} path={`/${page}`}>
+                <button type="button" className="btn btn-primary" onClick={onHide}>
                   Aller à la page {page}
                 </button>
               </Link>

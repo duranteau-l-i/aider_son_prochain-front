@@ -7,7 +7,6 @@ import Input from 'components/Input';
 import Modal from 'containers/Modal';
 
 import './login.scss';
-import loginBackgroundImage from 'assets/img/welcome.jpg';
 
 const Login = ({ currentUser, submitLogin }) => {
   useEffect(() => {
@@ -40,7 +39,7 @@ const Login = ({ currentUser, submitLogin }) => {
         title="Heureux de vous revoir !"
         subtitle="Connectez-vous à votre compte"
         theme="dark"
-        backgroundImage={loginBackgroundImage}
+        page="login"
       />
       <div className="container">
         <div className="row justify-content-center">

@@ -1,26 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import Input from 'components/Input';
 import Header from 'components/Header';
-
-import contactBackgroundImage from 'assets/img/handshake.jpg';
 
 class Contact extends React.Component {
   componentDidMount() {
     document.title = 'Contact - Aider son prochain';
   }
 
-  submitContactForm = event => {
-    const { submitContact } = this.props;
-    event.preventDefault();
-    submitContact(event.target);
+  submitContactForm = e => {
+    e.preventDefault();
+    const data = {};
+    Array.from(e.target).forEach(el => {
+      data[el.name] = el.value;
+    });
+    axios
+      .post('http://aider-son-prochain.fr/email/contact.php', data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   render() {
     return (
       <>
-        <Header title="contactez-nous" theme="dark" backgroundImage={contactBackgroundImage} />
+        <Header title="contactez-nous" theme="dark" page="contact" />
         <div className="container mt-4 py-5">
           <div className="row">
             <div className="col-sm-12 col-md-8">
@@ -31,7 +43,12 @@ class Contact extends React.Component {
                 utiliser le formulaire ci-dessous ou nous envoyer un email. Nous essayerons de vous
                 répondre dans les plus brefs délais.
               </p>
-              <form className="mb-4" onSubmit={this.submitContactForm}>
+              <form
+                className="mb-4"
+                method="post"
+                action={'http://aider-son-prochain.fr/email/contact.php'}
+                // onSubmit={this.submitContactForm}
+              >
                 <Input
                   type="email"
                   label="Adresse email"
@@ -82,7 +99,7 @@ class Contact extends React.Component {
               <div className="card">
                 <div className="card-header">Nos coordonnées</div>
                 <div className="card-body">
-                  <p className="font-weight-bold mb-0">Aide ton prochain</p>
+                  <p className="font-weight-bold mb-0">Aider son prochain</p>
                   <span>
                     10 Rue de l'exemple
                     <br />
@@ -100,9 +117,5 @@ class Contact extends React.Component {
     );
   }
 }
-
-Contact.propTypes = {
-  submitContact: PropTypes.func.isRequired,
-};
 
 export default Contact;

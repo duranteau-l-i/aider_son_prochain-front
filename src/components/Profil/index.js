@@ -27,11 +27,13 @@ const Profil = ({ currentUser, role }) => {
                 <div className="col px-md-large">
                   <ProfilHeader
                     title={`${currentUser.user.username} (${role})`}
-                    user={currentUser}
+                    user={currentUser.user}
                     update={false}
                     role={role}
                   />
-                  {role === 'beneficiary' && <Beneficiary currentUser={currentUser} role={role} />}
+                  {role === 'beneficiary' && (
+                    <Beneficiary beneficiary={currentUser.user} role={role} />
+                  )}
                   {role === 'shopkeeper' && <Shopkeeper currentUser={currentUser} role={role} />}
                   {role === 'donor' && <Donor currentUser={currentUser} role={role} />}
                 </div>

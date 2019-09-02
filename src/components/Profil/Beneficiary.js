@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Beneficiary = ({ currentUser, role, publicProfile }) => {
-  const beneficiary = currentUser.user;
+const Beneficiary = ({ beneficiary, role, publicProfile }) => {
+  // const beneficiary = currentUser.user;
   return (
     <>
       {!publicProfile && (
@@ -33,6 +33,24 @@ const Beneficiary = ({ currentUser, role, publicProfile }) => {
       )}
 
       <div className="profile-group mb-3">
+        <p>
+          {beneficiary.firstname !== '' && (
+            <>
+              <b>Prénom:</b> {beneficiary.firstname}
+              {' - '}
+            </>
+          )}
+          {beneficiary.lastname !== '' && (
+            <>
+              <b>Nom:</b> {beneficiary.lastname}{' '}
+            </>
+          )}
+        </p>
+        {beneficiary.email !== '' && (
+          <p>
+            <b>Email:</b> {beneficiary.email}
+          </p>
+        )}
         <p className="mb-1 font-weight-bold">Où me trouver</p>
         <span>
           {beneficiary.location && beneficiary.location.address !== '' ? (
@@ -56,8 +74,7 @@ const Beneficiary = ({ currentUser, role, publicProfile }) => {
       <div className="profile-group mb-3">
         <p className="mb-1 font-weight-bold">Description</p>
         <>
-          {beneficiary.description &&
-            beneficiary.description.trim() === '' &&
+          {(!beneficiary.description || beneficiary.description.trim() === '') &&
             'Aucune description enregistrée'}
 
           {beneficiary.description && beneficiary.description.trim() !== '' && (
@@ -77,7 +94,6 @@ const Beneficiary = ({ currentUser, role, publicProfile }) => {
 };
 
 Beneficiary.propTypes = {
-  currentUser: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired,
 };
 

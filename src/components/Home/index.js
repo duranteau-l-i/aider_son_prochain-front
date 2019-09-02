@@ -5,7 +5,7 @@ import mockup from 'assets/img/mockup-donation.png';
 
 import { Link } from 'react-router-dom';
 import Header from 'components/Header';
-import testimonies from 'data/testimonies';
+// import testimonies from 'data/testimonies';
 import './home.scss';
 
 class Home extends React.Component {
@@ -16,23 +16,20 @@ class Home extends React.Component {
     return (
       <>
         <Header page="home" />
-        <section id="qui-sommes-nous" className="py-5 bg-white">
+        <section id="qui-sommes-nous" className="py-5 bg-white align-items-center">
           <div className="container page-id-home">
-            <div className="row">
-              <div className="col">
-                <h2>Qui sommes-nous ?</h2>
+            <div className="row align-items-center">
+              <div className="col-md-6 col-xs-12">
+                <h2>Pourquoi ?</h2>
                 <p>
-                  I think we need to start from scratch. I'll pay you in a week we don't need to pay
-                  upfront i hope you understand we are a startup, nor we don't need a contract, do
-                  we or can you please change the color theme of the website.
+                  Tout d'abord nous pensons que le plus grand manque de certaines personnes est la
+                  sociabilisation.
+                  <br />
+                  Le but est avant tout de mettre en contact des personnes qui s'ignorent.
                 </p>
-                <p>
-                  I got your invoice...it seems really high, why did you charge so much make it pop
-                  the target audience is makes and famles aged zero and up, so try a more powerful
-                  colour. I think we need.
-                </p>
+                <p>Et celui qui peut faire plus, cela est tout à son avantage !</p>
               </div>
-              <div className="col d-none d-md-flex">
+              <div className="col-md-6 col-xs-12 d-flex justify-content-center">
                 <img className="align-self-end" src={illustration_qsn} alt="illustration SQN" />
               </div>
             </div>
@@ -40,16 +37,17 @@ class Home extends React.Component {
         </section>
         <section id="comment-ca-marche" className="bg-light py-5">
           <div className="container">
-            <div className="row">
-              <div className="col">
+            <div className="row align-items-center">
+              <div className="col-md-6 col-xs-12">
                 <h2>Comment ça marche ?</h2>
                 <ol id="steps-counter">
                   <li>Je vais à la rencontre d'une personne</li>
                   <li>Je lui fais un don chez un commerçant via le site</li>
                   <li>La personne consomme ce don quand elle en a envie</li>
                 </ol>
+                <br />
               </div>
-              <div className="col d-none d-md-flex justify-content-center">
+              <div className="col-md-6 col-xs-12 d-flex justify-content-center">
                 <img className="align-self-end img-mockup" src={mockup} alt="mockup donation" />
               </div>
             </div>
@@ -67,52 +65,49 @@ class Home extends React.Component {
               {/* bloc donateur */}
               <div className="col text-center d-flex flex-column profile-col">
                 <div className="profile-bloc profile-bloc-donor">Donateur</div>
-                <p>
-                  For doing some work for us "pro bono" will really add to your portfolio i promise
-                  nor can my website be in english?. In an ideal world give us a complimentary.
+                <p className="profils">
+                  Prenais un peu de votre temps et si possible de votre argent.
                 </p>
-                <Link exact key="donorRegistration" className="text-accent" to="/register/donor">
-                  Nous rejoindre
-                </Link>
+                <p>
+                  <Link key="donorRegistration" className="btn btn-primary" to="/register/donor">
+                    Nous rejoindre
+                  </Link>
+                </p>
               </div>
 
               {/* bloc bénéficiaire */}
               <div className="col text-center d-flex flex-column profile-col">
                 <div className="profile-bloc profile-bloc-beneficiary">Bénéficiaire</div>
+                <p className="profils">Profite d'un moment chaleureux.</p>
                 <p>
-                  For doing some work for us "pro bono" will really add to your portfolio i promise
-                  nor can my website be in english?. In an ideal world give us a complimentary.
+                  <Link
+                    key="beneficiaryRegistration"
+                    className="btn btn-primary"
+                    to="/register/beneficiary"
+                  >
+                    Nous rejoindre
+                  </Link>
                 </p>
-                <Link
-                  exact
-                  key="beneficiaryRegistration"
-                  className="text-accent"
-                  to="/register/beneficiary"
-                >
-                  Nous rejoindre
-                </Link>
               </div>
 
               {/* bloc commerçant */}
               <div className="col text-center d-flex flex-column profile-col">
                 <div className="profile-bloc profile-bloc-shopkeeper">Commerçant</div>
+                <p className="profils">Accueil et permet le contact avec des gens différents.</p>
                 <p>
-                  For doing some work for us "pro bono" will really add to your portfolio i promise
-                  nor can my website be in english?. In an ideal world give us a complimentary.
+                  <Link
+                    key="shopkeeperRegistration"
+                    className="btn btn-primary"
+                    to="/register/shopkeeper"
+                  >
+                    Nous rejoindre
+                  </Link>
                 </p>
-                <Link
-                  exact
-                  key="shopkeeperRegistration"
-                  className="text-accent"
-                  to="/register/shopkeeper"
-                >
-                  Nous rejoindre
-                </Link>
               </div>
             </div>
           </div>
         </section>
-        <section className="bg-light py-5">
+        {/* <section className="bg-light py-5">
           <div className="container">
             <div className="row">
               <div className="col text-center">
@@ -134,7 +129,7 @@ class Home extends React.Component {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
       </>
     );
   }

@@ -32,22 +32,22 @@
     margin-bottom: 2rem;
     background-size: cover;
     &.profile-bloc-donor {
-      background-image: url('../../assets/img/donor.jpg');
+      background-image: url('../../assets/img/hands.jpg');
     }
     &.profile-bloc-beneficiary {
-      background-image: url('../../assets/img/beneficiary.jpg');
+      background-image: url('../../assets/img/homeless.jpg');
     }
     &.profile-bloc-shopkeeper {
-      background-image: url('../../assets/img/shopkeeper.jpg');
+      background-image: url('../../assets/img/coffee.jpg');
     }
   }
 }
 
-#join-us {
-  a {
-    text-decoration: underline;
-  }
-}
+// #join-us {
+//   a {
+//     text-decoration: underline;
+//   }
+// }
 
 .testimony {
   position: relative;
@@ -79,5 +79,11 @@
     letter-spacing: 1px;
     margin-bottom: 3rem;
     margin-top: 1.7rem;
+  }
+}
+
+@media screen and (min-width: 510px) {
+  .profils {
+    min-height: 90px;
   }
 }

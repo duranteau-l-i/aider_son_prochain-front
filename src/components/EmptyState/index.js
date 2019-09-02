@@ -21,12 +21,6 @@ const EmptyState = ({ message, link = '', className = '' }) => (
 
 EmptyState.propTypes = {
   message: PropTypes.string.isRequired,
-  link: PropTypes.object.isRequired,
-  className: PropTypes.string.isRequired,
-};
-
-EmptyState.defaultProps = {
-  link: '',
 };
 
 export default EmptyState;
