@@ -1,0 +1,77 @@
+export const donations = [
+  {
+    beneficiaryUsername: 'Beneficiary_1',
+    products: [
+      {
+        available: true,
+        description: '',
+        _id: '5d6b86d5e5f50f2f3c63b778',
+        name: 'product _1',
+        price: 1.5,
+        shopkeeper: '5d6b86d5e5f50f2f3c63b776',
+        updated_at: '2019-09-01T08:52:39.585Z',
+        __v: 0,
+      },
+      {
+        available: true,
+        description: '',
+        _id: '5d6b86d5e5f50f2f3c63b779',
+        name: 'product 2',
+        price: 2,
+        shopkeeper: '5d6b86d5e5f50f2f3c63b776',
+        updated_at: '2019-09-01T08:52:39.594Z',
+        __v: 0,
+      },
+    ],
+    _id: '5d6b86d5e5f50f2f3c63b77c',
+    donor: {
+      _id: '5d6b86d5e5f50f2f3c63b76f',
+      username: 'Donor_1',
+    },
+    beneficiary: '5d6b86d5e5f50f2f3c63b772',
+    shopkeeper: {
+      _id: '5d6b86d5e5f50f2f3c63b776',
+      shopkeeper_name: 'Café du coin 2',
+    },
+    created_at: '2019-09-01T08:52:39.729Z',
+    __v: 0,
+  },
+  {
+    beneficiaryUsername: 'Beneficiary_1',
+    products: [
+      {
+        available: true,
+        description: '',
+        _id: '5d6b86d5e5f50f2f3c63b779',
+        name: 'product 2',
+        price: 2,
+        shopkeeper: '5d6b86d5e5f50f2f3c63b776',
+        updated_at: '2019-09-01T08:52:39.594Z',
+        __v: 0,
+      },
+      {
+        available: true,
+        description: '',
+        _id: '5d6b86d5e5f50f2f3c63b77a',
+        name: 'product 3',
+        price: 1.8,
+        shopkeeper: '5d6b86d5e5f50f2f3c63b776',
+        updated_at: '2019-09-01T08:52:39.602Z',
+        __v: 0,
+      },
+    ],
+    _id: '5d6b86d5e5f50f2f3c63b77d',
+    donor: {
+      _id: '5d6b86d5e5f50f2f3c63b76f',
+      username: 'Donor_1',
+    },
+    beneficiary: '5d6b86d5e5f50f2f3c63b772',
+    shopkeeper: {
+      _id: '5d6b86d5e5f50f2f3c63b776',
+      shopkeeper_name: 'Café du coin 2',
+    },
+    created_at: '2019-09-01T08:52:39.752Z',
+    __v: 0,
+    used_at: '2019-09-01T08:52:39.875Z',
+  },
+];

@@ -2,6 +2,29 @@
   "name": "atp",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "set PORT=8000 && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test:mocha": "mocha --require tests/.setup.js tests/**/*.test.js",
+    "test:watch": "mocha --watch --require tests/.setup.js tests/**/*.test.js",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "4.3.1",
@@ -25,35 +48,19 @@
     "redux": "^4.0.4",
     "redux-persist": "^5.10.0"
   },
-  "scripts": {
-    "start": "set PORT=8000 && react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
     "@babel/core": "*",
     "@babel/plugin-proposal-class-properties": "*",
     "@babel/plugin-proposal-object-rest-spread": "*",
     "@babel/preset-env": "*",
     "@babel/preset-react": "*",
+    "@babel/register": "^7.5.5",
     "autoprefixer": "*",
+    "chai": "^4.2.0",
+    "chai-enzyme": "^1.0.0-beta.1",
     "css-loader": "*",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "eslint-config-airbnb": "*",
     "eslint-import-resolver-webpack": "*",
     "eslint-plugin-import": "*",
@@ -62,12 +69,19 @@
     "file-loader": "*",
     "html-webpack-plugin": "*",
     "ignore-styles": "*",
+    "jsdom": "^15.1.1",
     "mini-css-extract-plugin": "*",
+    "mocha": "^6.2.0",
     "node-sass": "*",
     "optimize-css-assets-webpack-plugin": "*",
     "postcss": "*",
     "postcss-loader": "*",
+    "redux-mock-store": "^1.5.3",
+    "redux-test-utils": "^0.3.0",
+    "redux-thunk": "^2.3.0",
     "sass-loader": "*",
+    "sinon": "^7.4.1",
+    "sinon-chai": "^3.3.0",
     "style-loader": "*",
     "stylelint": "*",
     "stylelint-config-recommended": "*",

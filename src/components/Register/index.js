@@ -6,8 +6,8 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import Header from 'components/Header';
 import Input from 'components/Input';
-import RegisterShopkeeper from './shopkeeperInputs';
-import RegisterBeneficiary from './beneficiaryInputs';
+import Shopkeeper from './shopkeeper';
+import Beneficiary from './beneficiary';
 import Modal from 'containers/Modal';
 
 import './register.scss';
@@ -91,6 +91,7 @@ const Register = props => {
 
   return (
     <>
+      <div className="register"></div>
       <Script
         url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API}&libraries=places`}
         onLoad={onLoad}
@@ -154,18 +155,10 @@ const Register = props => {
                   />
 
                   {role === 'shopkeeper' && (
-                    <RegisterShopkeeper
-                      value={address}
-                      onChange={handleChange}
-                      onSelect={handleSelect}
-                    />
+                    <Shopkeeper value={address} onChange={handleChange} onSelect={handleSelect} />
                   )}
                   {role === 'beneficiary' && (
-                    <RegisterBeneficiary
-                      value={address}
-                      onChange={handleChange}
-                      onSelect={handleSelect}
-                    />
+                    <Beneficiary value={address} onChange={handleChange} onSelect={handleSelect} />
                   )}
 
                   <button type="submit" className="mt-4 btn btn-primary btn-block">
@@ -177,7 +170,7 @@ const Register = props => {
           </div>
           <Modal
             title="Inscription"
-            message="Vous avez été enregistré avec succes"
+            message="Vous avez été enregistré avec succès"
             messageError="Une erreur est survenue, veuillez reessayer"
             page="login"
           />

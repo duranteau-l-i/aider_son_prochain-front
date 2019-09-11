@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Donor = ({ currentUser }) => {
-  const user = currentUser.user;
+const Donor = ({ currentUser: { user } }) => {
   return (
     <>
       <h2>Mes informations personnelles</h2>

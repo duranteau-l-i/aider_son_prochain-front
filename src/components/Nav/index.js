@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, Link, withRouter } from 'react-router-dom';
 
-import Currentuser from './currentuser';
+import Currentuser from './Currentuser';
 import RegisterDropdown from './RegisterDropdown';
 
 import './nav.scss';

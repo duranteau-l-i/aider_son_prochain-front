@@ -17,8 +17,8 @@ const persistConfig = {
   key: 'root',
   storage: storage,
   stateReconciler: autoMergeLevel2, // see "Merge Process" section for details.
-  whitelist: ['user'],
-  blacklist: ['donation'],
+  // whitelist: ['user'],
+  // blacklist: ['donation'],
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -34,9 +34,9 @@ const enhancers = composeEnhancers(
   ),
 );
 
-const pReducer = persistReducer(persistConfig, reducer);
+const Preducer = persistReducer(persistConfig, reducer);
 
-export const store = createStore(pReducer, enhancers);
+export const store = createStore(Preducer, enhancers);
 export const persistor = persistStore(store);
 
 export default store;

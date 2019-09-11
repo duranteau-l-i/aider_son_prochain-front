@@ -30,7 +30,7 @@ class Beneficiary extends React.Component {
       longitude: 0,
     },
     scriptLoaded: false,
-    isGeoLocAccessible: true,
+    isGeoLocAccessible: false,
     itemsOrderedByDistance: [],
     beneficiaries: [],
     suggest: { id: '', name: '' },
