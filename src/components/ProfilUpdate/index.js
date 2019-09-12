@@ -13,7 +13,7 @@ import './profilUpdate.scss';
 import '../Profil/profil.scss';
 
 const ProfilUpdate = ({ currentUser, role, updateProfile, token }) => {
-  document.title = `Editer mon profil - Aider son prochain`;
+  document.title = `Editer mon profil - ${process.env.REACT_APP_WEBSITE_TITLE}`;
   if (currentUser.user !== undefined) {
     return (
       <>

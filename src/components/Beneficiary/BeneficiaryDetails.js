@@ -20,7 +20,7 @@ class BeneficiaryDetails extends Component {
 
   render() {
     const { currentUser, beneficiary, role } = this.props;
-    document.title = `${beneficiary.username} - Aider son prochain`;
+    document.title = `${beneficiary.username} - ${process.env.REACT_APP_WEBSITE_TITLE}`;
     if (currentUser.user !== undefined) {
       return (
         <>

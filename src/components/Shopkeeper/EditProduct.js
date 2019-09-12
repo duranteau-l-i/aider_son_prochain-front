@@ -14,7 +14,7 @@ class EditProduct extends React.Component {
     const productId = this.props.match.params.id;
     const shopkeeperId = this.props.currentUser.user._id;
     axios
-      .get(`${process.env.REACT_APP_API_URL_DEV}/product/${shopkeeperId}/${productId}`)
+      .get(`${process.env.REACT_APP_API_URL}/product/${shopkeeperId}/${productId}`)
       .then(response => {
         this.setState({
           product: response.data.product,

@@ -7,7 +7,7 @@ const shopkeeperMiddleware = store => next => action => {
   switch (action.type) {
     case UPDATE_PROFIL:
       axios
-        .patch(`${process.env.REACT_APP_API_URL_DEV}/${action.role}/profil-update`, action.data, {
+        .patch(`${process.env.REACT_APP_API_URL}/${action.role}/profil-update`, action.data, {
           headers: {
             Authorization: `Bearer ${action.token}`,
             'Content-Type': 'application/json',

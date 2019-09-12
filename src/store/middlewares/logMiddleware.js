@@ -9,7 +9,7 @@ const logMiddleware = store => next => action => {
   switch (action.type) {
     case SUBMIT_REGISTER:
       axios
-        .post(`${process.env.REACT_APP_API_URL_DEV}/${action.role}/register`, action.data, {
+        .post(`${process.env.REACT_APP_API_URL}/${action.role}/register`, action.data, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -23,7 +23,7 @@ const logMiddleware = store => next => action => {
       break;
     case SUBMIT_LOGIN:
       axios
-        .post(`${process.env.REACT_APP_API_URL_DEV}/connexion`, action.data, {
+        .post(`${process.env.REACT_APP_API_URL}/connexion`, action.data, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -41,7 +41,7 @@ const logMiddleware = store => next => action => {
     case DECONNEXION:
       axios
         .post(
-          `${process.env.REACT_APP_API_URL_DEV}/${action.role}/logout`,
+          `${process.env.REACT_APP_API_URL}/${action.role}/logout`,
           {},
           {
             headers: { Authorization: `Bearer ${action.token}` },

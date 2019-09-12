@@ -29,7 +29,7 @@ const Register = props => {
   const [location, setLocation] = useState({});
 
   useEffect(() => {
-    document.title = `Inscription ${roleTitle} - Aider son prochain`;
+    document.title = `Inscription ${roleTitle} - ${process.env.REACT_APP_WEBSITE_TITLE}`;
   });
 
   const onLoad = () => {

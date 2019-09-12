@@ -32,7 +32,7 @@ export const updateAvatar = (event, role, token) => {
     formData.append('avatar', event.target.files[0]);
     formData.append('name', 'avatar');
     axios
-      .post(`${process.env.REACT_APP_API_URL_DEV}/${role}/upload`, formData, {
+      .post(`${process.env.REACT_APP_API_URL}/${role}/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           // 'Content-Type': 'multipart/form-data',

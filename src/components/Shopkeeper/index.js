@@ -34,7 +34,7 @@ class Shopkeeper extends React.Component {
   };
 
   componentDidMount = () => {
-    document.title = `Commerces à proximité - Aider son prochain`;
+    document.title = `Commerces à proximité - ${process.env.REACT_APP_WEBSITE_TITLE}`;
 
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -70,7 +70,7 @@ class Shopkeeper extends React.Component {
     const { role, token } = this.props;
     axios
       .post(
-        `${process.env.REACT_APP_API_URL_DEV}/${role}/shopkeepers-distance`,
+        `${process.env.REACT_APP_API_URL}/${role}/shopkeepers-distance`,
         { latitude, longitude, km },
         {
           headers: {

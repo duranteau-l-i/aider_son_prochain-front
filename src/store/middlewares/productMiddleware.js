@@ -10,16 +10,12 @@ const productMiddleware = store => next => action => {
   switch (action.type) {
     case EDIT_PRODUCT:
       axios
-        .patch(
-          `${process.env.REACT_APP_API_URL_DEV}/product/update/${action.productId}`,
-          action.data,
-          {
-            headers: {
-              Authorization: `Bearer ${action.token}`,
-              'Content-Type': 'application/json',
-            },
+        .patch(`${process.env.REACT_APP_API_URL}/product/update/${action.productId}`, action.data, {
+          headers: {
+            Authorization: `Bearer ${action.token}`,
+            'Content-Type': 'application/json',
           },
-        )
+        })
         .then(response => {
           store.dispatch(recieveProducts(response.data.products, response.data.shopkeeper));
           store.dispatch(modalShow(true, false));
@@ -31,7 +27,7 @@ const productMiddleware = store => next => action => {
       break;
     case GET_PRODUCTS:
       axios
-        .get(`${process.env.REACT_APP_API_URL_DEV}/product/${action.shopkeeperId}`)
+        .get(`${process.env.REACT_APP_API_URL}/product/${action.shopkeeperId}`)
         .then(response => {
           store.dispatch(recieveProducts(response.data.products, response.data.shopkeeper));
         })
@@ -41,7 +37,7 @@ const productMiddleware = store => next => action => {
       break;
     case ADD_PRODUCT:
       axios
-        .post(`${process.env.REACT_APP_API_URL_DEV}/product/`, action.data, {
+        .post(`${process.env.REACT_APP_API_URL}/product/`, action.data, {
           headers: {
             Authorization: `Bearer ${action.token}`,
             'Content-Type': 'application/json',
@@ -57,7 +53,7 @@ const productMiddleware = store => next => action => {
       break;
     case DELETE_PRODUCT:
       axios
-        .delete(`${process.env.REACT_APP_API_URL_DEV}/product/delete/${action.productId}`, {
+        .delete(`${process.env.REACT_APP_API_URL}/product/delete/${action.productId}`, {
           headers: {
             Authorization: `Bearer ${action.token}`,
             'Content-Type': 'application/json',

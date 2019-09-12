@@ -7,7 +7,7 @@ const Footer = () => {
     <>
       <footer id="sticky-footer" className="py-4 bg-dark text-white-50 mt-5">
         <div className="container text-center">
-          <small>Copyright &copy; 2019 | Aider son prochain</small>
+          <small>Copyright &copy; 2019 | {process.env.REACT_APP_WEBSITE_TITLE}</small>
         </div>
       </footer>
     </>

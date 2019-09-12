@@ -145,7 +145,7 @@ class ShopkeeperDonation extends Component {
   render() {
     const { total, beneficiary, donation } = this.state;
     const { shop, products, role } = this.props;
-    document.title = `${shop.shopkeeper_name} - Aider son prochain`;
+    document.title = `${shop.shopkeeper_name} - ${process.env.REACT_APP_WEBSITE_TITLE}`;
     return (
       <>
         <Header title={shop.shopkeeper_name} theme="dark" />

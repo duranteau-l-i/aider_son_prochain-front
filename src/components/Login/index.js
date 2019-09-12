@@ -10,7 +10,7 @@ import './login.scss';
 
 const Login = ({ currentUser, submitLogin }) => {
   useEffect(() => {
-    document.title = `Connexion - Aider son prochain`;
+    document.title = `Connexion - ${process.env.REACT_APP_WEBSITE_TITLE}`;
   });
 
   const submitLoginForm = e => {

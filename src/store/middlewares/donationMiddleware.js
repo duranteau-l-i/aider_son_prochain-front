@@ -7,7 +7,7 @@ const shopkeeperMiddleware = store => next => action => {
   switch (action.type) {
     case GET_DONATIONS:
       axios
-        .get(`${process.env.REACT_APP_API_URL_DEV}/${action.role}/donations/`, {
+        .get(`${process.env.REACT_APP_API_URL}/${action.role}/donations/`, {
           headers: {
             Authorization: `Bearer ${action.token}`,
             'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ const shopkeeperMiddleware = store => next => action => {
       break;
     case SEND_DONATION:
       axios
-        .post(`${process.env.REACT_APP_API_URL_DEV}/${action.role}/donation/`, action.data, {
+        .post(`${process.env.REACT_APP_API_URL}/${action.role}/donation/`, action.data, {
           headers: {
             Authorization: `Bearer ${action.token}`,
             'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const shopkeeperMiddleware = store => next => action => {
     case VALIDATE_DONATION:
       axios
         .patch(
-          `${process.env.REACT_APP_API_URL_DEV}/${action.role}/donation-used/${action.donationId}`,
+          `${process.env.REACT_APP_API_URL}/${action.role}/donation-used/${action.donationId}`,
           action.data,
           {
             headers: {
@@ -49,7 +49,7 @@ const shopkeeperMiddleware = store => next => action => {
           },
         )
         .then(response => {
-          console.log("Donation validé", response.data);
+          console.log('Donation validé', response.data);
         })
         .catch(e => {
           console.log("Impossible d'envoyer la donation", e);

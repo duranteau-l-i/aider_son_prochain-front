@@ -7,7 +7,7 @@ const beneficiaryMiddleware = store => next => action => {
     case GET_BENEFICIARY:
       axios
         .get(
-          `${process.env.REACT_APP_API_URL_DEV}/${action.role}/beneficiaries/${action.beneficiaryId}`,
+          `${process.env.REACT_APP_API_URL}/${action.role}/beneficiaries/${action.beneficiaryId}`,
           {
             headers: {
               Authorization: `Bearer ${action.token}`,

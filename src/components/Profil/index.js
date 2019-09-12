@@ -13,7 +13,7 @@ import './profil.scss';
 
 const Profil = ({ currentUser, role }) => {
   useEffect(() => {
-    document.title = `Mon profil - Aider son prochain`;
+    document.title = `Mon profil - ${process.env.REACT_APP_WEBSITE_TITLE}`;
   });
 
   if (currentUser.user !== undefined) {

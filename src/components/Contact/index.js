@@ -6,7 +6,7 @@ import Header from 'components/Header';
 
 class Contact extends React.Component {
   componentDidMount() {
-    document.title = 'Contact - Aider son prochain';
+    document.title = `Contact - ${process.env.REACT_APP_WEBSITE_TITLE}`;
   }
 
   submitContactForm = e => {
@@ -99,7 +99,7 @@ class Contact extends React.Component {
               <div className="card">
                 <div className="card-header">Nos coordonnées</div>
                 <div className="card-body">
-                  <p className="font-weight-bold mb-0">Aider son prochain</p>
+                  <p className="font-weight-bold mb-0">{process.env.REACT_APP_WEBSITE_TITLE}</p>
                   <span>
                     10 Rue de l'exemple
                     <br />

@@ -48,7 +48,7 @@ class Suggest extends React.Component {
   onChange = (event, { newValue }) => {
     const { role, token, who } = this.props;
     axios
-      .get(`${process.env.REACT_APP_API_URL_DEV}/${role}/search-${who}/?q=${newValue}`, {
+      .get(`${process.env.REACT_APP_API_URL}/${role}/search-${who}/?q=${newValue}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

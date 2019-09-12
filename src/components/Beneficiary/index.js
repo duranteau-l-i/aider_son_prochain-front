@@ -38,7 +38,7 @@ class Beneficiary extends React.Component {
   };
   // Avant d'afficher le composant on récupère la localisation via le navigateur et l'ensemble des shops
   componentDidMount = () => {
-    document.title = `Personnes à proximité - Aider son prochain`;
+    document.title = `Personnes à proximité - ${process.env.REACT_APP_WEBSITE_TITLE}`;
 
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -74,7 +74,7 @@ class Beneficiary extends React.Component {
     const { role, token } = this.props;
     axios
       .post(
-        `${process.env.REACT_APP_API_URL_DEV}/${role}/beneficiaries-distance`,
+        `${process.env.REACT_APP_API_URL}/${role}/beneficiaries-distance`,
         { latitude, longitude, km },
         {
           headers: {
